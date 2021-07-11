@@ -54,15 +54,17 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         
         if ($this->shuffleanswers) {
             shuffle($this->order);
-        }
-                
-        // DEV JR try to find another solution
+        }                
+        
+        /* Try to find a better solution than using $SESSION to store the new order! 
+            See Tim's suggestion at https://moodle.org/mod/forum/discuss.php?d=424238#p1709521. 
+        */
         $SESSION->randomorderslect = $this->order;
         
         $step->set_qt_var('_order', implode(',', $this->order));
     }
 
-    /* See Tim's suggestion at https://moodle.org/mod/forum/discuss.php?d=424238#p1709521. */
+    
     public function apply_attempt_state(question_attempt_step $step) {
         $this->order = explode(',', $step->get_qt_var('_order'));
 

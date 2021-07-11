@@ -49,13 +49,15 @@ class qtype_answersselect_edit_form extends question_edit_form {
         $mform->addHelpButton('showstandardinstruction', 'showstandardinstruction', 'qtype_answersselect');
         $mform->setDefault('showstandardinstruction', 0);
         
-        $menu = array('Use all the answers', 'Manual selection',
-            'Automatic random selection');
-        $mform->addElement('select', 'answersselectmode', 'Number of correct and incorrect answers', $menu);
-        
-        
-        // DEV JR JULY 2021        
-        // Check if we are starting a new question.
+        $menu = array(get_string('useallanswers', 'qtype_answersselect'),
+            get_string('manualselection', 'qtype_answersselect'),
+            get_string('automaticselection', 'qtype_answersselect'));
+        $mform->addElement('select', 'answersselectmode',
+             get_string('answersselectmode', 'qtype_answersselect'),
+             $menu);
+        $mform->addHelpButton('answersselectmode', 'answersselectmode', 'qtype_answersselect');
+                        
+        // First check if we are starting a new question.
         if (isset($this->question->options->answers)) {
             $currentanswers = $this->question->options->answers;
             $answercount = count($currentanswers);
@@ -70,6 +72,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
                 'Number of selected correct answers',
                 $correctoptions                                                
             );
+            $mform->addHelpButton('randomselectcorrect', 'randomselectcorrect', 'qtype_answersselect');
             $mform->setDefault('randomselectcorrect', 0);
             $mform->hideIf('randomselectcorrect', 'answersselectmode', 'neq', 1);
             
@@ -78,10 +81,11 @@ class qtype_answersselect_edit_form extends question_edit_form {
                 'Number of selected incorrect answers',
                 $incorrectoptions                
             );
+            $mform->addHelpButton('randomselectincorrect', 'randomselectincorrect', 'qtype_answersselect');
             $mform->setDefault('randomselectincorrect', 0);
             $mform->hideIf('randomselectincorrect', 'answersselectmode', 'neq', 1);
         };   
-        // END DEV JR
+        
         $this->add_per_answer_fields($mform, get_string('choiceno', 'qtype_multichoice', '{no}'),
                 null, max(5, QUESTION_NUMANS_START));
 
