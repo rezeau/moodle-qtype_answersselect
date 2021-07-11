@@ -302,6 +302,12 @@ class qtype_answersselect extends question_type {
                 array('#', 'answernumbering', 0, '#'), 'abc');
         $question->showstandardinstruction = $format->getpath($data,
             array('#', 'showstandardinstruction', 0, '#'), 1);
+        $question->answersselectmode = $format->getpath($data,
+            array('#', 'answersselectmode', 0, '#'), 1);
+        $question->randomselectcorrect = $format->getpath($data,
+            array('#', 'randomselectcorrect', 0, '#'), 1);
+        $question->randomselectincorrect = $format->getpath($data,
+            array('#', 'randomselectincorrect', 0, '#'), 1);
 
         $format->import_combined_feedback($question, $data, true);
 
@@ -342,7 +348,9 @@ class qtype_answersselect extends question_type {
                 $question->options->shuffleanswers) . "</shuffleanswers>\n";
         $output .= "    <answernumbering>{$question->options->answernumbering}</answernumbering>\n";
         $output .= "    <showstandardinstruction>{$question->options->showstandardinstruction}</showstandardinstruction>\n";
-
+        $output .= "    <answersselectmode>{$question->options->answersselectmode}</answersselectmode>\n";
+        $output .= "    <randomselectcorrect>{$question->options->randomselectcorrect}</randomselectcorrect>\n";
+        $output .= "    <randomselectincorrect>{$question->options->randomselectincorrect}</randomselectincorrect>\n";        
         $output .= $format->write_combined_feedback($question->options,
                                                     $question->id,
                                                     $question->contextid);
