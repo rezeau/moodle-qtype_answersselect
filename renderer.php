@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/multichoice/renderer.php');
 require_once($CFG->dirroot . '/question/type/answersselect/lib.php');
-global $SESSION;
+
 class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
     
     /**
@@ -57,29 +57,25 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
         return get_string('yougotnright', 'qtype_answersselect', $a);
     }
     
-    public function correct_response(question_attempt $qa) {
-        global $randomorderslect;
-        
+    public function correct_response(question_attempt $qa) {      
+        $randomorderslectorder = explode(',', $qa->get_step(0)->get_qt_var('_order'));        
         $question = $qa->get_question();
         $right = array();
         foreach ($question->answers as $ansid => $ans) {
-            
-            if (!in_array($ans->id, $this->order)) {
+            // Do not display correct answers which have not been randomly selected in the question.
+            if (!in_array($ans->id, $randomorderslectorder)) {
                 continue;
             }
-                        
             if ($ans->fraction > 0) {
                 $right[] = $question->make_html_inline($question->format_text($ans->answer, $ans->answerformat,
                         $qa, 'question', 'answer', $ansid));
             }
         }
-            
         return $this->correct_choices($right);
     }
     
     public function formulation_and_controls(question_attempt $qa,
             question_display_options $options) {
-            global $SESSION;
         
         $question = $qa->get_question();
         $response = $question->get_response($qa);
@@ -97,8 +93,6 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
         $feedbackimg = array();
         $feedback = array();
         $classes = array();
-                
-        $this->order = $SESSION->randomorderslect;
          
         foreach ($question->get_order($qa) as $value => $ansid) {
             $ans = $question->answers[$ansid];

@@ -26,7 +26,6 @@
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/multichoice/question.php');
-global $SESSION;
 
 /**
  * Represents an OU multiple response question.
@@ -44,7 +43,6 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
     
     
     public function start_attempt(question_attempt_step $step, $variant) {
-        global $SESSION;
         
         if ($this->answersselectmode == 0) {
             $this->order = array_keys($this->answers); 
@@ -54,12 +52,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         
         if ($this->shuffleanswers) {
             shuffle($this->order);
-        }                
-        
-        /* Try to find a better solution than using $SESSION to store the new order! 
-            See Tim's suggestion at https://moodle.org/mod/forum/discuss.php?d=424238#p1709521. 
-        */
-        $SESSION->randomorderslect = $this->order;
+        }
         
         $step->set_qt_var('_order', implode(',', $this->order));
     }
