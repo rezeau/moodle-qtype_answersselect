@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * OU multiple response question type class.
+ * Random select answers question type class.
  *
  * @package    qtype_answersselect
- * @copyright  2008 The Open University
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -39,7 +40,10 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
  * 2. The correct answer is just indicated on the editing form by a indicating
  * which choices are correct. There is no complex but flexible scoring system.
  *
- * @copyright  2008 The Open University
+ * 3.- Correct and incorrect answers are randomly selected from a "pool" at runtime.</p>
+ *
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_answersselect extends question_type {
@@ -129,19 +133,16 @@ class qtype_answersselect extends question_type {
         $options->answernumbering = $question->answernumbering;
         $options->shuffleanswers = $question->shuffleanswers;
         $options->showstandardinstruction = !empty($question->showstandardinstruction);
-        // DEV JR
         // Need to check that these options have been set in the edit form because they are not set by default.
         $options->answersselectmode = $question->answersselectmode;
-        if(isset($question->randomselectcorrect)) {
+        if (isset($question->randomselectcorrect)) {
             $options->randomselectcorrect = $question->randomselectcorrect;
             $options->randomselectincorrect = $question->randomselectincorrect;
         } else {
             $options->randomselectcorrect = 0;
             $options->randomselectincorrect = 0;
         }
-        
-        // END DEV JR
-        
+
         $options = $this->save_combined_feedback_helper($options, $question, $context, true);
         $DB->update_record('question_answersselect', $options);
 
@@ -241,11 +242,9 @@ class qtype_answersselect extends question_type {
         $question->shuffleanswers = $questiondata->options->shuffleanswers;
         $question->answernumbering = $questiondata->options->answernumbering;
         $question->showstandardinstruction = $questiondata->options->showstandardinstruction;
-        // DEV JR
         $question->answersselectmode = $questiondata->options->answersselectmode;
         $question->randomselectcorrect = $questiondata->options->randomselectcorrect;
         $question->randomselectincorrect = $questiondata->options->randomselectincorrect;
-        // END DEV JR
         $this->initialise_combined_feedback($question, $questiondata, true);
         $this->initialise_question_answers($question, $questiondata, false);
     }
@@ -350,7 +349,7 @@ class qtype_answersselect extends question_type {
         $output .= "    <showstandardinstruction>{$question->options->showstandardinstruction}</showstandardinstruction>\n";
         $output .= "    <answersselectmode>{$question->options->answersselectmode}</answersselectmode>\n";
         $output .= "    <randomselectcorrect>{$question->options->randomselectcorrect}</randomselectcorrect>\n";
-        $output .= "    <randomselectincorrect>{$question->options->randomselectincorrect}</randomselectincorrect>\n";        
+        $output .= "    <randomselectincorrect>{$question->options->randomselectincorrect}</randomselectincorrect>\n";
         $output .= $format->write_combined_feedback($question->options,
                                                     $question->id,
                                                     $question->contextid);

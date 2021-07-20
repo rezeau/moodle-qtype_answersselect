@@ -6,7 +6,7 @@
 .que.answersselect .answer div.r0,
 .que.answersselect .answer div.r1 {
     display: flex;
-    /* DEV JR flex-wrap: wrap;*/
+    /* DEV JR:  removed flex-wrap: wrap;*/
     align-items: baseline;
 }
 .que.answersselect .answer div.r0 label,

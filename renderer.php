@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * OU multi response question renderer class.
+ * Random select answers question renderer class.
  *
  * @package   qtype_answersselect
- * @copyright 2018 The Open University
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -29,15 +30,15 @@ require_once($CFG->dirroot . '/question/type/multichoice/renderer.php');
 require_once($CFG->dirroot . '/question/type/answersselect/lib.php');
 
 class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
-    
+
     /**
      * Generate a brief statement of how many sub-parts of this question the
      * student got right.
      * @param question_attempt $qa the question attempt to display.
      * @return string HTML fragment.
      */
-    
-      
+
+
     public function num_parts_correct(question_attempt $qa) {
 
         if ($qa->get_question()->get_num_selected_choices($qa->get_last_qt_data()) >
@@ -56,9 +57,9 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
         $a->num = $f->format($a->num);
         return get_string('yougotnright', 'qtype_answersselect', $a);
     }
-    
-    public function correct_response(question_attempt $qa) {      
-        $randomorderslectorder = explode(',', $qa->get_step(0)->get_qt_var('_order'));        
+
+    public function correct_response(question_attempt $qa) {
+        $randomorderslectorder = explode(',', $qa->get_step(0)->get_qt_var('_order'));
         $question = $qa->get_question();
         $right = array();
         foreach ($question->answers as $ansid => $ans) {
@@ -73,10 +74,10 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
         }
         return $this->correct_choices($right);
     }
-    
+
     public function formulation_and_controls(question_attempt $qa,
             question_display_options $options) {
-        
+
         $question = $qa->get_question();
         $response = $question->get_response($qa);
         $inputname = $qa->get_qt_field_name('answer');
@@ -93,7 +94,7 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
         $feedbackimg = array();
         $feedback = array();
         $classes = array();
-         
+
         foreach ($question->get_order($qa) as $value => $ansid) {
             $ans = $question->answers[$ansid];
             $inputattributes['name'] = $this->get_input_name($qa, $value);

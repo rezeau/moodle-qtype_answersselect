@@ -17,7 +17,8 @@
  * Privacy Subsystem implementation for qtype_answersselect.
  *
  * @package    qtype_answersselect
- * @copyright  2018 The Open University
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace qtype_answersselect\privacy;
@@ -25,7 +26,8 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Privacy Subsystem for qtype_answersselect implementing null_provider.
  *
- * @copyright  2018 The Open University
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class provider implements \core_privacy\local\metadata\null_provider {

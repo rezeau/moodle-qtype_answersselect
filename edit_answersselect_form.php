@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Editing form for the OU multiple response question type class.
+ * Editing form for the Random select answers question type class.
  *
  * @package    qtype_answersselect
- * @copyright  2008 The Open University
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,7 +29,8 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Editing form for the answersselect question type.
  *
- * @copyright  2008 The Open University
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_answersselect_edit_form extends question_edit_form {
@@ -38,7 +40,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
                 get_string('shuffleanswers', 'qtype_multichoice'), null, null, array(0, 1));
         $mform->addHelpButton('shuffleanswers', 'shuffleanswers', 'qtype_multichoice');
         $mform->setDefault('shuffleanswers', 1);
-        
+
         $mform->addElement('select', 'answernumbering',
                 get_string('answernumbering', 'qtype_multichoice'),
                 qtype_multichoice::get_numbering_styles());
@@ -48,7 +50,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
             get_string('showstandardinstruction', 'qtype_answersselect'), null, null, [0, 1]);
         $mform->addHelpButton('showstandardinstruction', 'showstandardinstruction', 'qtype_answersselect');
         $mform->setDefault('showstandardinstruction', 0);
-        
+
         $menu = array(get_string('useallanswers', 'qtype_answersselect'),
             get_string('manualselection', 'qtype_answersselect'),
             get_string('automaticselection', 'qtype_answersselect'));
@@ -56,7 +58,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
              get_string('answersselectmode', 'qtype_answersselect'),
              $menu);
         $mform->addHelpButton('answersselectmode', 'answersselectmode', 'qtype_answersselect');
-                        
+
         // First check if we are starting a new question.
         if (isset($this->question->options->answers)) {
             $currentanswers = $this->question->options->answers;
@@ -67,25 +69,25 @@ class qtype_answersselect_edit_form extends question_edit_form {
                     $numberofcorrectanswers++;
                 }
             }
-            $correctoptions = range($numberofcorrectanswers, 1);            
+            $correctoptions = range($numberofcorrectanswers, 1);
             $mform->addElement('select', 'randomselectcorrect',
                 'Number of selected correct answers',
-                $correctoptions                                                
+                $correctoptions
             );
             $mform->addHelpButton('randomselectcorrect', 'randomselectcorrect', 'qtype_answersselect');
             $mform->setDefault('randomselectcorrect', 0);
             $mform->hideIf('randomselectcorrect', 'answersselectmode', 'neq', 1);
-            
-            $incorrectoptions = range($answercount - $numberofcorrectanswers, 1);; 
+
+            $incorrectoptions = range($answercount - $numberofcorrectanswers, 1);;
             $mform->addElement('select', 'randomselectincorrect',
                 'Number of selected incorrect answers',
-                $incorrectoptions                
+                $incorrectoptions
             );
             $mform->addHelpButton('randomselectincorrect', 'randomselectincorrect', 'qtype_answersselect');
             $mform->setDefault('randomselectincorrect', 0);
             $mform->hideIf('randomselectincorrect', 'answersselectmode', 'neq', 1);
-        };   
-        
+        };
+
         $this->add_per_answer_fields($mform, get_string('choiceno', 'qtype_multichoice', '{no}'),
                 null, max(5, QUESTION_NUMANS_START));
 
@@ -165,7 +167,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
             $question->randomselectcorrect = $question->options->randomselectcorrect;
             $question->randomselectincorrect = $question->options->randomselectincorrect;
         }
-        
+
         return $question;
     }
 

@@ -18,16 +18,13 @@
  * Random select answers question type language strings.
  *
  * @package    qtype_answersselect
- * @copyright  2008 The Open University & 2021 Joseph Rézeau
+ * /**
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$string['choices'] = 'Available choices';
-$string['combinedcontrolnameanswersselect'] = 'check box group';
 $string['correctanswer'] = 'Correct';
-$string['err_correctanswerblank'] = 'You have marked this choice as correct but it is blank!';
-$string['err_nonecorrect'] = 'You have not marked any choices as correct.';
-$string['err_youneedmorechoices'] = 'You need to enter two or more choices.';
 $string['notenoughcorrectanswers'] = 'You must select at least one correct choice';
 $string['pluginname'] = 'Random select answers';
 $string['pluginname_help'] = 'A multiple-choice, multiple-response question type allowing random selection of correct/incorrect answers.';
@@ -42,7 +39,7 @@ $string['yougotnright'] = 'You have correctly selected {$a->num} options.';
 $string['yougot1right'] = 'You have correctly selected one option.';
 $string['privacy:metadata'] = 'The Random select answers plugin does not store any personal data.';
 $string['showstandardinstruction'] = 'Show standard instruction';
-$string['showstandardinstruction_help'] = 'With this setting enabled, standard instruction will be supplied as part of the selection area (e.g. "Select one or more:"). If disabled, question authors can instead included instructions in the question content, if required.';
+$string['showstandardinstruction_help'] = 'With this setting enabled, standard instruction will be supplied as part of the selection area (e.g. "Select one or more:"). If disabled, question authors can instead include instructions in the question content, if required.';
 $string['randomselectcorrect'] = 'Number of correct answers';
 $string['randomselectcorrect_help'] = 'Number of correct answers which will be displayed to the student.';
 $string['randomselectincorrect'] = 'Number of incorrect answers';

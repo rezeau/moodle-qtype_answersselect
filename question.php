@@ -15,10 +15,11 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * OU multiple response question definition class.
+ * Random select answers question definition class.
  *
  * @package    qtype_answersselect
- * @copyright  2010 The Open University
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,9 +29,10 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/question/type/multichoice/question.php');
 
 /**
- * Represents an OU multiple response question.
+ * Represents a Random select answers question.
  *
- * @copyright  2010 The Open University
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_answersselect_question extends qtype_multichoice_multi_question
@@ -40,24 +42,23 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
      * @var int standard instruction to be displayed if enabled.
      */
     public $showstandardinstruction = 0;
-    
-    
+
     public function start_attempt(question_attempt_step $step, $variant) {
-        
+
         if ($this->answersselectmode == 0) {
-            $this->order = array_keys($this->answers); 
+            $this->order = array_keys($this->answers);
         } else {
             $this->order = $this->get_new_order();
         }
-        
+
         if ($this->shuffleanswers) {
             shuffle($this->order);
         }
-        
+
         $step->set_qt_var('_order', implode(',', $this->order));
     }
 
-    
+
     public function apply_attempt_state(question_attempt_step $step) {
         $this->order = explode(',', $step->get_qt_var('_order'));
 
@@ -88,7 +89,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
      * @return renderer_base
      */
     public function get_renderer(moodle_page $page) {
-    
+
         return $page->get_renderer('qtype_answersselect');
     }
 
@@ -131,7 +132,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
 
     public function compute_final_grade($responses, $totaltries) {
         $responsehistories = array();
-        
+
         foreach ($this->order as $key => $ansid) {
             $fieldname = $this->field($key);
             $responsehistories[$ansid] = '';
@@ -165,7 +166,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         // distinguish right and wrong by replacing 1 with 2 for right answers.
         $workspace = array();
         $numright = 0;
-        
+
         foreach ($responsehistory as $id => $string) {
             $workspace[$id] = strrev($string);
             if (!question_state::graded_state_for_fraction(
@@ -226,7 +227,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
     public static function replace_char_at($string, $pos, $newchar) {
         return substr($string, 0, $pos) . $newchar . substr($string, $pos + 1);
     }
-    
+
     public function get_num_parts_right(array $response) {
         $numright = 0;
         foreach ($this->order as $key => $ans) {
@@ -240,10 +241,10 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
                 $numright += 1;
             }
         }
-        //$numright = 99;
+
         return array($numright, count($this->order));
     }
-    
+
     /**
      * @return int the number of choices that are correct.
      */
@@ -258,7 +259,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         }
         return $numcorrect;
     }
-    
+
     public function get_new_order() {
         $correct = array();
         $incorrect = array();
@@ -283,7 +284,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         }
         array_splice($correct, $nbcorrect);
         array_splice($incorrect, $nbincorrect);
-        $this->order = array_merge($correct,$incorrect);
+        $this->order = array_merge($correct, $incorrect);
         return $this->order;
     }
 

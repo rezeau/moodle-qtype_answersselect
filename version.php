@@ -15,24 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * OU multiple response question type version file.
+ * Random select answers question type version file.
  *
  * @package   qtype_answersselect
- * @copyright 2008 The Open University & 2021 Joseph Rézeau
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
 
-$plugin->version   = 2021071600;
+$plugin->version   = 2021072000;
 $plugin->requires  = 2020061500;
 $plugin->component = 'qtype_answersselect';
-$plugin->maturity  = MATURITY_ALPHA;
-$plugin->release   = '0.2 for Moodle 3.9+';
+$plugin->maturity  = MATURITY_BETA;
+$plugin->release   = '0.3 for Moodle 3.9+';
 
 $plugin->dependencies = array(
     'qtype_multichoice' => 2020061500,
 );
-
-$plugin->outestssufficient = true;
