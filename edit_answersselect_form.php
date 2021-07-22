@@ -51,6 +51,13 @@ class qtype_answersselect_edit_form extends question_edit_form {
         $mform->addHelpButton('showstandardinstruction', 'showstandardinstruction', 'qtype_answersselect');
         $mform->setDefault('showstandardinstruction', 0);
 
+        $correctchoicesseparator = array(get_string('comma', 'qtype_answersselect'),
+            get_string('blankspace', 'qtype_answersselect'),
+            get_string('linebreak', 'qtype_answersselect'));
+        $mform->addElement('select', 'correctchoicesseparator',
+                get_string('correctchoicesseparator', 'qtype_answersselect'),
+                $correctchoicesseparator);
+
         $menu = array(get_string('useallanswers', 'qtype_answersselect'),
             get_string('manualselection', 'qtype_answersselect'),
             get_string('automaticselection', 'qtype_answersselect'));
@@ -166,6 +173,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
             $question->answersselectmode = $question->options->answersselectmode;
             $question->randomselectcorrect = $question->options->randomselectcorrect;
             $question->randomselectincorrect = $question->options->randomselectincorrect;
+            $question->correctchoicesseparator = $question->options->correctchoicesseparator;
         }
 
         return $question;

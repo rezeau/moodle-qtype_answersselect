@@ -27,12 +27,12 @@
 $string['correctanswer'] = 'Correct';
 $string['notenoughcorrectanswers'] = 'You must select at least one correct choice';
 $string['pluginname'] = 'Random select answers';
-$string['pluginname_help'] = 'A multiple-choice, multiple-response question type allowing random selection of correct/incorrect answers.';
+$string['pluginname_help'] = 'A multiple-choice, multiple-response question type allowing random selection from a "pool" of correct/incorrect answers.';
 $string['pluginname_link'] = 'question/type/answersselect';
 $string['pluginnameadding'] = 'Adding a Random select answers question';
 $string['pluginnameediting'] = 'Editing a Random select answers question';
 $string['pluginnamesummary'] = '<p>A multiple-choice, multiple-response question type with particular scoring rules.</p>
-<p>Recommended if your question has many correct and incorrect answers from which "pool" a set number can be selected at runtime.</p>';
+<p>Recommended if your question has a "pool" of correct and incorrect answers from which a set number can be selected at runtime.</p>';
 $string['toomanyoptions'] = 'You have selected too many options.';
 $string['showeachanswerfeedback'] = 'Show the feedback for the selected responses.';
 $string['yougotnright'] = 'You have correctly selected {$a->num} options.';
@@ -45,7 +45,11 @@ $string['randomselectcorrect_help'] = 'Number of correct answers which will be d
 $string['randomselectincorrect'] = 'Number of incorrect answers';
 $string['randomselectincorrect_help'] = 'Number of incorrect answers which will be displayed to the student.';
 $string['answersselectmode'] = 'Number of correct and incorrect answers';
-$string['answersselectmode_help'] = 'Select how many correct and incorrect answers will be displayed to the student. ***When you create a new question, you need to click the "Save changes and continue editing in order for those menu items to become active."';
+$string['answersselectmode_help'] = 'Select how many correct and incorrect answers will be displayed to the student. IMPORTANT.- When you create a new question, you need to click the "Save changes and continue editing" button in order for those menu items to become active.';
 $string['useallanswers'] = 'Use all answers (default mode)';
 $string['manualselection'] = 'Manual selection';
 $string['automaticselection'] = 'Automatic random selection';
+$string['comma'] = 'comma';
+$string['blankspace'] = 'blank space';
+$string['linebreak'] = 'line break';
+$string['correctchoicesseparator'] = 'Separator to be used for the right answers display';

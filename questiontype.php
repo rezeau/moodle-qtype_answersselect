@@ -127,12 +127,14 @@ class qtype_answersselect extends question_type {
             $options->partiallycorrectfeedback = '';
             $options->incorrectfeedback = '';
             $options->showstandardinstruction = 0;
+            $options->correctchoicesseparator = 0;
             $options->id = $DB->insert_record('question_answersselect', $options);
         }
 
         $options->answernumbering = $question->answernumbering;
         $options->shuffleanswers = $question->shuffleanswers;
         $options->showstandardinstruction = !empty($question->showstandardinstruction);
+        $options->correctchoicesseparator = $question->correctchoicesseparator;
         // Need to check that these options have been set in the edit form because they are not set by default.
         $options->answersselectmode = $question->answersselectmode;
         if (isset($question->randomselectcorrect)) {
@@ -245,6 +247,7 @@ class qtype_answersselect extends question_type {
         $question->answersselectmode = $questiondata->options->answersselectmode;
         $question->randomselectcorrect = $questiondata->options->randomselectcorrect;
         $question->randomselectincorrect = $questiondata->options->randomselectincorrect;
+        $question->correctchoicesseparator = $questiondata->options->correctchoicesseparator;
         $this->initialise_combined_feedback($question, $questiondata, true);
         $this->initialise_question_answers($question, $questiondata, false);
     }
@@ -307,6 +310,8 @@ class qtype_answersselect extends question_type {
             array('#', 'randomselectcorrect', 0, '#'), 1);
         $question->randomselectincorrect = $format->getpath($data,
             array('#', 'randomselectincorrect', 0, '#'), 1);
+        $question->correctchoicesseparator = $format->getpath($data,
+            array('#', 'correctchoicesseparator', 0, '#'), 1);
 
         $format->import_combined_feedback($question, $data, true);
 
@@ -350,6 +355,7 @@ class qtype_answersselect extends question_type {
         $output .= "    <answersselectmode>{$question->options->answersselectmode}</answersselectmode>\n";
         $output .= "    <randomselectcorrect>{$question->options->randomselectcorrect}</randomselectcorrect>\n";
         $output .= "    <randomselectincorrect>{$question->options->randomselectincorrect}</randomselectincorrect>\n";
+        $output .= "    <correctchoicesseparator>{$question->options->correctchoicesseparator}</correctchoicesseparator>\n";
         $output .= $format->write_combined_feedback($question->options,
                                                     $question->id,
                                                     $question->contextid);

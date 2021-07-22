@@ -72,7 +72,7 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
                         $qa, 'question', 'answer', $ansid));
             }
         }
-        return $this->correct_choices($right);
+        return $this->correct_choices_answersselect($right, $question->correctchoicesseparator);
     }
 
     public function formulation_and_controls(question_attempt $qa,
@@ -186,17 +186,27 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
     }
     /**
      * Function returns string based on number of correct answers
+     * Overrides the default MULTICHOICE correct_choices function
      * @param array $right An Array of correct responses to the current question
+     * @param number $correctchoicesseparator The type of separator
      * @return string based on number of correct responses
      */
-    protected function correct_choices(array $right) {
+
+    protected function correct_choices_answersselect(array $right, $correctchoicesseparator) {
         // Return appropriate string for single/multiple correct answer(s).
         if (count($right) == 1) {
                 return get_string('correctansweris', 'qtype_multichoice',
                         implode(', ', $right));
         } else if (count($right) > 1) {
+            if ($correctchoicesseparator == 0) {
+                $separator = ', ';
+            } else if ($correctchoicesseparator == 1) {
+                $separator = ' ';
+            } else {
+                $separator = '<br />';
+            };
                 return get_string('correctanswersare', 'qtype_multichoice',
-                        implode(', ', $right));
+                        '<br />'.implode($separator, $right));
         } else {
                 return "";
         }

@@ -29,7 +29,7 @@ $plugin->version   = 2021072000;
 $plugin->requires  = 2020061500;
 $plugin->component = 'qtype_answersselect';
 $plugin->maturity  = MATURITY_BETA;
-$plugin->release   = '0.3 for Moodle 3.9+';
+$plugin->release   = '0.4 for Moodle 3.9+';
 
 $plugin->dependencies = array(
     'qtype_multichoice' => 2020061500,
