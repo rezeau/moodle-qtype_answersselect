@@ -68,8 +68,15 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
                 continue;
             }
             if ($ans->fraction > 0) {
-                $right[] = $question->make_html_inline($question->format_text($ans->answer, $ans->answerformat,
-                        $qa, 'question', 'answer', $ansid));
+                $t = $question->format_text($ans->answer, $ans->answerformat,
+                        $qa, 'question', 'answer', $ansid);
+                /* Trick to clean answers created with ATTO editor of LTR value
+                *  Used as a replacement for default function make_html_inline($html).
+                */
+                $replacement = '';
+                $patterns = array('/<p.*?\>/', '/<\/p>/', '/(<br|br \/)>/');
+                $t = preg_replace($patterns, $replacement, $t, -1 );
+                $right[] = $t;
             }
         }
         return $this->correct_choices_answersselect($right, $question->correctchoicesseparator);

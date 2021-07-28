@@ -25,7 +25,7 @@
 
 .que.answersselect .answer div.r0 div.specificfeedback,
 .que.answersselect .answer div.r1 div.specificfeedback {
-    display: flex;
+    display: inline;
     flex: 1 1 100%;
 }
 
