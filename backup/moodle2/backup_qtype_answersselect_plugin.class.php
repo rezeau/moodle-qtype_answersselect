@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Backup code for the Random select answers question type backup
  * @package    qtype_answersselect
  * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
  * @copyright based on work by 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
@@ -73,7 +74,7 @@ class backup_qtype_answersselect_plugin extends backup_qtype_plugin {
     /**
      * Returns one array with filearea => mappingname elements for the qtype.
      *
-     * Used by {@link get_components_and_fileareas} to know about all the qtype
+     * Used by get_components_and_fileareas to know about all the qtype
      * files to be processed both in backup and restore.
      */
     public static function get_qtype_fileareas() {

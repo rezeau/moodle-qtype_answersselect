@@ -23,12 +23,18 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot . '/question/type/multichoice/renderer.php');
 require_once($CFG->dirroot . '/question/type/answersselect/lib.php');
 
+/**
+ * Random select answers question renderer class.
+ *
+ * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright based on work by 2008 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
 
     /**
@@ -37,8 +43,6 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
      * @param question_attempt $qa the question attempt to display.
      * @return string HTML fragment.
      */
-
-
     public function num_parts_correct(question_attempt $qa) {
 
         if ($qa->get_question()->get_num_selected_choices($qa->get_last_qt_data()) >
@@ -58,6 +62,12 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
         return get_string('yougotnright', 'qtype_answersselect', $a);
     }
 
+    /**
+     * Get correct response
+     *
+     * @param question_attempt $qa
+     * @return string
+     */
     public function correct_response(question_attempt $qa) {
         $randomorderslectorder = explode(',', $qa->get_step(0)->get_qt_var('_order'));
         $question = $qa->get_question();
@@ -82,6 +92,14 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
         return $this->correct_choices_answersselect($right, $question->correctchoicesseparator);
     }
 
+    /**
+     * Generate the display of the formulation part of the question shown at runtime
+     * in a quiz.
+     *
+     * @param question_attempt $qa the question attempt to display.
+     * @param question_display_options $options controls what should and should not be displayed.
+     * @return string HTML fragment.
+     */
     public function formulation_and_controls(question_attempt $qa,
             question_display_options $options) {
 
@@ -191,6 +209,7 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
 
         return $result;
     }
+
     /**
      * Function returns string based on number of correct answers
      * Overrides the default MULTICHOICE correct_choices function
@@ -198,7 +217,6 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
      * @param number $correctchoicesseparator The type of separator
      * @return string based on number of correct responses
      */
-
     protected function correct_choices_answersselect(array $right, $correctchoicesseparator) {
         // Return appropriate string for single/multiple correct answer(s).
         if (count($right) == 1) {

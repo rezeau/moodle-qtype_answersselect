@@ -24,10 +24,10 @@
 
 defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'qtype_answersselect';
-$plugin->version   = 2021072800;
+$plugin->version   = 2021080200;
 $plugin->requires  = 2020061500;
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.0';
+$plugin->release   = '1.1';
 $plugin->dependencies = array(
     'qtype_multichoice' => 2020061500,
 );

@@ -27,7 +27,17 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Checks file access for answersselect questions.
+ * Checks file access for gapfill  questions.
+ * @package  qtype_gapfill
+ * @category files
+ * @param stdClass $course course object
+ * @param stdClass $cm course module object
+ * @param stdClass $context context object
+ * @param string $filearea file area
+ * @param array $args extra arguments
+ * @param bool $forcedownload whether or not force download
+ * @param array $options additional options affecting the file serving
+ *
  */
 function qtype_answersselect_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options = array()) {
     global $CFG;

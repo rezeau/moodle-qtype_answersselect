@@ -15,6 +15,8 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Random select answers question type restoration
+ *
  * @package    qtype_answersselect
  * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
  * @copyright based on work by 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
@@ -26,6 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 
 
 /**
+ * Information to restore a backup of a Random select answers question
+ *
  * restore plugin class that provides the necessary information
  * needed to restore one answersselect qtype plugin.
  *
@@ -56,6 +60,8 @@ class restore_qtype_answersselect_plugin extends restore_qtype_plugin {
 
     /**
      * Process the qtype/answersselect element.
+     *
+     * @param array $data
      */
     public function process_answersselect($data) {
         global $DB;
@@ -80,6 +86,13 @@ class restore_qtype_answersselect_plugin extends restore_qtype_plugin {
         }
     }
 
+    /**
+     * Recode the response to the question
+     *
+     * @param int $questionid Question ID
+     * @param int $sequencenumber Sequence number of question (or attempt?)
+     * @param array $response re-ordered response
+     */
     public function recode_response($questionid, $sequencenumber, array $response) {
         if (array_key_exists('_order', $response)) {
             $response['_order'] = $this->recode_choice_order($response['_order']);

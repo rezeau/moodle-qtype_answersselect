@@ -43,6 +43,13 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
      */
     public $showstandardinstruction = 0;
 
+    /**
+     * Start a new attempt at this question, storing any information that will
+     * be needed later in the step and doing initialisation
+     *
+     * @param question_attempt_step $step
+     * @param number $variant (apparently not used)
+     */
     public function start_attempt(question_attempt_step $step, $variant) {
 
         if ($this->answersselectmode == 0) {
@@ -58,7 +65,19 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         $step->set_qt_var('_order', implode(',', $this->order));
     }
 
-
+    /**
+     * When an in-progress question_attempt is re-loaded from the
+     * database, this method is called so that the question can re-initialise
+     * its internal state as needed by this attempt.
+     *
+     * For example, the multiple choice question type needs to set the order
+     * of the choices to the order that was set up when start_attempt was called
+     * originally. All the information required to do this should be in the
+     * $step object, which is the first step of the question_attempt being loaded.
+     *
+     * @param question_attempt_step The first step of the {@link question_attempt}
+     *      being loaded.
+     */
     public function apply_attempt_state(question_attempt_step $step) {
         $this->order = explode(',', $step->get_qt_var('_order'));
 
@@ -93,6 +112,14 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         return $page->get_renderer('qtype_answersselect');
     }
 
+    /**
+     * Creat the appropriate behaviour for an attempt at this quetsion,
+     * given the desired (archetypal) behaviour.
+     *
+     * @param question_attempt $qa the attempt we are creating a behaviour for.
+     * @param string $preferredbehaviour the requested type of behaviour.
+     * @return question_behaviour the new behaviour object.
+     */
     public function make_behaviour(question_attempt $qa, $preferredbehaviour) {
         if ($preferredbehaviour == 'interactive') {
             return question_engine::make_behaviour(
@@ -101,6 +128,13 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         return question_engine::make_archetypal_behaviour($preferredbehaviour, $qa);
     }
 
+    /**
+     * Categorise the student's response according to the categories defined by
+     * get_possible_responses.
+     * @param $response a response, as might be passed to grade_response().
+     * @return array subpartid => question_classified_response objects.
+     *      returns an empty array if no analysis is possible.
+     */
     public function classify_response(array $response) {
         $choices = parent::classify_response($response);
         $numright = $this->get_num_correct_choices();
@@ -110,6 +144,13 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         return $choices;
     }
 
+    /**
+     * Grade a response to the question, returning a fraction between
+     * get_min_fraction() and get_max_fraction(), and the corresponding question_state
+     * right, partial or wrong.
+     * @param array $response responses, as returned by question_attempt_step::get_qt_data().
+     * @return array (float, integer) the fraction, and the state.
+     */
     public function grade_response(array $response) {
         list($numright, $total) = $this->get_num_parts_right($response);
         $numwrong = $this->get_num_selected_choices($response) - $numright;
@@ -124,12 +165,25 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         return array($fraction, $state);
     }
 
+    /**
+     * Disable those hint settings that we don't want when the student has selected
+     * more choices than the number of right choices.
+     * This avoids giving the game away.
+     *
+     * @param question_hint_with_parts $hint a hint.
+     */
     protected function disable_hint_settings_when_too_many_selected(
             question_hint_with_parts $hint) {
         parent::disable_hint_settings_when_too_many_selected($hint);
         $hint->showchoicefeedback = false;
     }
 
+    /**
+     * Computes the final grade when "Multiple Attempts" or "Hints" are enabled
+     *
+     * @param array $responses Contains the user responses. 1st dimension = attempt, 2nd dimension = answers
+     * @param int $totaltries Not needed
+     */
     public function compute_final_grade($responses, $totaltries) {
         $responsehistories = array();
 
@@ -157,7 +211,9 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
      *      on, so 011 means not selected on the first try, then selected on the
      *      second and third tries. All the strings must be the same length.
      * @param array $answers $question->options->answers, that is an array
-     *      $answerid => $answer, where $answer->fraction is 0 or 1. The key fields are
+     *      $answerid => $answer, where $answer->fraction is 0 or 1.
+     * @param int $penalty.
+     * @param int $questionnumtries.
      * @return float the score.
      */
     public static function grade_computation($responsehistory, $answers,
@@ -224,10 +280,24 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         return array_sum($scores);
     }
 
+    /**
+     * String function? (not documented in the OU multiple response question type)
+     *
+     * @param string $string.
+     * @param int $pos.
+     * @param string $newchar.
+     * @return string?
+     */
     public static function replace_char_at($string, $pos, $newchar) {
         return substr($string, 0, $pos) . $newchar . substr($string, $pos + 1);
     }
 
+    /**
+     * Return the number of subparts of this response that are right.
+     * @param array $response a response
+     * @return array with two elements, the number of correct subparts, and
+     * the total number of subparts.
+     */
     public function get_num_parts_right(array $response) {
         $numright = 0;
         foreach ($this->order as $key => $ans) {
@@ -246,6 +316,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
     }
 
     /**
+     * Return the number of choices that are correct.
      * @return int the number of choices that are correct.
      */
     public function get_num_correct_choices() {
@@ -260,6 +331,10 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         return $numcorrect;
     }
 
+    /**
+     * Return the full list of selected correct and incorrect choices.
+     * @return array the full list of selected correct and incorrect choices.
+     */
     public function get_new_order() {
         $correct = array();
         $incorrect = array();

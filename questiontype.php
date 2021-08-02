@@ -32,6 +32,8 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
 
 
 /**
+ * Random select answers question type class.
+ *
  * This questions type is like the standard multiplechoice question type, but
  * with these differences:
  *
@@ -47,14 +49,27 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_answersselect extends question_type {
+
+    /**
+     * @return whether the question_answers.answer field needs to have
+     * restore_decode_content_links_worker called on it.
+     */
     public function has_html_answers() {
         return true;
     }
 
-    public function requires_qtypes() {
-        return array('multichoice');
-    }
-
+    /**
+     * Loads the question type specific options for the question.
+     *
+     * This function loads any question type specific options for the
+     * question from the database into the question object. This information
+     * is placed in the $question->options field. A question type is
+     * free, however, to decide on a internal structure of the options field.
+     * @return bool            Indicates success or failure.
+     * @param object $question The question object for the question. This object
+     *                         should be updated to include the question type
+     *                         specific information (it is passed by reference).
+     */
     public function get_question_options($question) {
         global $DB;
         $question->options = $DB->get_record('question_answersselect',
@@ -62,6 +77,14 @@ class qtype_answersselect extends question_type {
         parent::get_question_options($question);
     }
 
+    /**
+     * Saves question-type specific options
+     *
+     * This is called by save_question() to save the question-type specific data
+     * @return object $result->error or $result->notice
+     * @param object $question  This holds the information from the editing form,
+     *      it is not a standard question object.
+     */
     public function save_question_options($question) {
         global $DB;
         $context = $question->context;
@@ -151,6 +174,13 @@ class qtype_answersselect extends question_type {
         $this->save_hints($question, true);
     }
 
+    /**
+     * Save all hints.
+     *
+     * @param stdObject $formdata form data of question
+     * @param bool $withparts whether the question has parts
+     * @return stdObject
+     */
     public function save_hints($formdata, $withparts = false) {
         global $DB;
         $context = $formdata->context;
@@ -230,15 +260,34 @@ class qtype_answersselect extends question_type {
         }
     }
 
+    /**
+     * Make a hint object.
+     *
+     * @param stdObject $hint a hint
+     * @return stdObject
+     */
     protected function make_hint($hint) {
         return qtype_answersselect_hint::load_from_record($hint);
     }
 
+    /**
+     * Make an answer.
+     *
+     * @param stdObject $answer the answer
+     * @return stdObject
+     */
     public function make_answer($answer) {
         // Overridden just so we can make it public for use by question.php.
         return parent::make_answer($answer);
     }
 
+    /**
+     * Initialise the question instance.
+     *
+     * @param question_definition $question the question_definition we are creating
+     * @param stdObject $questiondata the question data
+     * @return void
+     */
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
         $question->shuffleanswers = $questiondata->options->shuffleanswers;
@@ -252,12 +301,25 @@ class qtype_answersselect extends question_type {
         $this->initialise_question_answers($question, $questiondata, false);
     }
 
+    /**
+     * Delete the question.
+     *
+     * @param int $questionid the question ID
+     * @param stdObject $contextid the context ID
+     * @return stdObject
+     */
     public function delete_question($questionid, $contextid) {
         global $DB;
         $DB->delete_records('question_answersselect', array('questionid' => $questionid));
         return parent::delete_question($questionid, $contextid);
     }
 
+    /**
+     * Get the number of correct response choices.
+     *
+     * @param stdObject $questiondata the question data
+     * @return int
+     */
     protected function get_num_correct_choices($questiondata) {
         $numright = 0;
         foreach ($questiondata->options->answers as $answer) {
@@ -268,6 +330,12 @@ class qtype_answersselect extends question_type {
         return $numright;
     }
 
+    /**
+     * Get the score if random response chosen.
+     *
+     * @param stdObject $questiondata the question data
+     * @return stdObject
+     */
     public function get_random_guess_score($questiondata) {
         // We compute the randome guess score here on the assumption we are using
         // the deferred feedback behaviour, and the question text tells the
@@ -278,6 +346,12 @@ class qtype_answersselect extends question_type {
                 count($questiondata->options->answers);
     }
 
+    /**
+     * Get the possible responses to the question.
+     *
+     * @param stdObject $questiondata the question data
+     * @return array array of question parts
+     */
     public function get_possible_responses($questiondata) {
         $numright = $this->get_num_correct_choices($questiondata);
         $parts = array();
@@ -290,6 +364,17 @@ class qtype_answersselect extends question_type {
         return $parts;
     }
 
+    // IMPORT EXPORT FUNCTIONS.
+
+    /**
+     * Provide import functionality for xml format
+     *
+     * @param mixed $data the segment of data containing the question
+     * @param stdObject $question question object processed (so far) by standard import code
+     * @param qformat_xml $format the format object so that helper methods can be used (in particular error())
+     * @param mixed $extra any additional format specific data that may be passed by the format (see format code for info)
+     * @return stdObject question object suitable for save_options() call or false if cannot handle
+     */
     public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
         if (!isset($data['@']['type']) || $data['@']['type'] != 'answersselect') {
             return false;
@@ -345,6 +430,14 @@ class qtype_answersselect extends question_type {
         return $question;
     }
 
+    /**
+     * Provide export functionality for xml format.
+     *
+     * @param stdObject $question the question object
+     * @param qformat_xml $format the format object so that helper methods can be used
+     * @param mixed $extra any additional format specific data that may be passed by the format (see format code for info)
+     * @return string the data to append to the output buffer or false if error
+     */
     public function export_to_xml($question, qformat_xml $format, $extra = null) {
         $output = '';
 
@@ -364,6 +457,14 @@ class qtype_answersselect extends question_type {
         return $output;
     }
 
+    /**
+     * Move files from old to new context.
+     *
+     * @param int $questionid the question ID
+     * @param stdObject $oldcontextid the source context ID
+     * @param stdObject $newcontextid the destination context ID
+     * @return void
+     */
     public function move_files($questionid, $oldcontextid, $newcontextid) {
         $fs = get_file_storage();
 
@@ -379,6 +480,13 @@ class qtype_answersselect extends question_type {
                 $newcontextid, 'question', 'incorrectfeedback', $questionid);
     }
 
+    /**
+     * Delete any files in the context.
+     *
+     * @param int $questionid the question ID
+     * @param stdObject $contextid the context ID
+     * @return void
+     */
     protected function delete_files($questionid, $contextid) {
         $fs = get_file_storage();
 
@@ -393,7 +501,7 @@ class qtype_answersselect extends question_type {
 
 
 /**
- * An extension of {@link question_hint_with_parts} for oumultirespone questions
+ * An extension of question_hint_with_parts for oumultirespone questions
  * with an extra option for whether to show the feedback for each choice.
  *
  * @copyright  2010 The Open University
@@ -405,7 +513,10 @@ class qtype_answersselect_hint extends question_hint_with_parts {
 
     /**
      * Constructor.
+     *
+     * @param int $id Question ID
      * @param string $hint The hint text
+     * @param int $hintformat
      * @param bool $shownumcorrect whether the number of right parts should be shown
      * @param bool $clearwrong whether the wrong parts should be reset.
      * @param bool $showchoicefeedback whether to show the feedback for each choice.
@@ -426,6 +537,12 @@ class qtype_answersselect_hint extends question_hint_with_parts {
                 $row->shownumcorrect, $row->clearwrong, !empty($row->options));
     }
 
+    /**
+     * Adjust the display options
+     *
+     * @param question_display_options $options display options
+     * @return void
+     */
     public function adjust_display_options(question_display_options $options) {
         parent::adjust_display_options($options);
         $options->suppresschoicefeedback = !$this->showchoicefeedback;
