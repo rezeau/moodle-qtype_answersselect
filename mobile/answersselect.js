@@ -1,3 +1,4 @@
+/* eslint-env es6 */
 var that = this;
 var result = {
 
@@ -40,7 +41,7 @@ var result = {
 
         var options = [];
         var divs = answeroptions.querySelectorAll('div[class^=r]'); // Only get the answer options divs (class="r0...").
-        divs.forEach(function(d, i) {
+        divs.forEach(function(d) {
             // Each answer option contains all the data for presentation, it just needs extracting.
             var checkbox = d.querySelector('input[type=checkbox]');
             var feedbackDiv = d.querySelector('div.core-question-feedback-container');
@@ -68,5 +69,6 @@ var result = {
     }
 };
 
-// This next line is required as is (because of an eval step that puts this result object into the global scope).
+// The final line is required as is (because of an eval step that puts this result object into the global scope).
+/* eslint-disable-next-line */
 result;
