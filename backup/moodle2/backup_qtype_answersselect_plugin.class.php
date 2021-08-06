@@ -54,6 +54,7 @@ class backup_qtype_answersselect_plugin extends backup_qtype_plugin {
 
         // Now create the qtype own structures.
         $answersselect = new backup_nested_element('answersselect', array('id'), array(
+            'answersselectmode', 'randomselectcorrect', 'randomselectincorrect', 'correctchoicesseparator',
             'shuffleanswers', 'correctfeedback', 'correctfeedbackformat',
             'partiallycorrectfeedback', 'partiallycorrectfeedbackformat',
             'incorrectfeedback', 'incorrectfeedbackformat', 'answernumbering',

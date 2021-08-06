@@ -62,6 +62,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
         $mform->addElement('select', 'correctchoicesseparator',
                 get_string('correctchoicesseparator', 'qtype_answersselect'),
                 $correctchoicesseparator);
+        $mform->addHelpButton('correctchoicesseparator', 'correctchoicesseparator', 'qtype_answersselect');
 
         $menu = array(get_string('useallanswers', 'qtype_answersselect'),
             get_string('manualselection', 'qtype_answersselect'),

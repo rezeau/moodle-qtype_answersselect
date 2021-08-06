@@ -53,3 +53,7 @@ $string['comma'] = 'comma';
 $string['blankspace'] = 'blank space';
 $string['linebreak'] = 'line break';
 $string['correctchoicesseparator'] = 'Separator to be used for the right answers display';
+$string['correctchoicesseparator_help'] = '<p>This separator will be used to separate the right answers displayed to the student if that review option is selected in the Quiz.</p>
+<ul><li>The comma is the default option, to be used for short right answers.</li>
+<li>Use the blank space if the (ordered) right answers are single words making up a sentence.</li>
+<li>Use the line break for longer right answers making a better display on separate lines.</li></ul>';

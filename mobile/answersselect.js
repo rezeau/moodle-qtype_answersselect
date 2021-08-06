@@ -40,7 +40,7 @@ var result = {
 
         var options = [];
         var divs = answeroptions.querySelectorAll('div[class^=r]'); // Only get the answer options divs (class="r0...").
-        divs.forEach(function(d, i) {
+        divs.forEach(function(d) {
             // Each answer option contains all the data for presentation, it just needs extracting.
             var checkbox = d.querySelector('input[type=checkbox]');
             var feedbackDiv = d.querySelector('div.core-question-feedback-container');
@@ -57,8 +57,16 @@ var result = {
             var disabled = (d.querySelector('input').getAttribute('disabled') === 'disabled' ? true : false);
             var feedback = (feedbackDiv ? feedbackDiv.innerHTML : '');
             var qclass = d.getAttribute('class') || '';
-            var iscorrect = qclass.indexOf('core-question-answer-correct') >= 0 ? 1 :
-                (qclass.indexOf('core-question-answer-incorrect') >= 0 ? 0 : undefined);
+            // See https://moodle.org/mod/forum/discuss.php?d=425286#p1712722 and https://eslint.org/docs/rules/no-nested-ternary.
+            var iscorrect;
+            if (qclass.indexOf('core-question-answer-correct') >= 0) {
+              iscorrect = 1;
+            } else if (qclass.indexOf('core-question-answer-incorrect') >= 0) {
+              iscorrect = 0;
+            } else {
+              iscorrect = undefined;
+            }
+            
             options.push({text: label, name: name, checked: checked, disabled: disabled, feedback: feedback, qclass: qclass,
                 iscorrect: iscorrect});
         });
