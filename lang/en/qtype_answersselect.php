@@ -17,7 +17,8 @@
 /**
  * Random select answers question type language strings.
  *
- * @package qtype_answersselect
+ * @package qtype
+ * @subpackage answersselect
  * /**
  * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
  * @copyright based on work by 2008 The Open University

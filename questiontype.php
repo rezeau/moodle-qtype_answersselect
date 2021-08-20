@@ -51,6 +51,8 @@ require_once($CFG->dirroot . '/question/format/xml/format.php');
 class qtype_answersselect extends question_type {
 
     /**
+     * Does the question_answers.answer field need to have restore_decode_content_links_worker called on it?
+     *
      * @return whether the question_answers.answer field needs to have
      * restore_decode_content_links_worker called on it.
      */
@@ -501,7 +503,9 @@ class qtype_answersselect extends question_type {
 
 
 /**
- * An extension of question_hint_with_parts for oumultirespone questions
+ * An extension of question_hint_with_parts for answersselect questions.
+ *
+ * An extension of question_hint_with_parts for answersselect questions
  * with an extra option for whether to show the feedback for each choice.
  *
  * @copyright  2010 The Open University
