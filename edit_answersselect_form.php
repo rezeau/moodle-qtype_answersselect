@@ -84,7 +84,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
             }
             $correctoptions = range($numberofcorrectanswers, 1);
             $mform->addElement('select', 'randomselectcorrect',
-                'Number of selected correct answers',
+                get_string('randomselectcorrect', 'qtype_answersselect'),
                 $correctoptions
             );
             $mform->addHelpButton('randomselectcorrect', 'randomselectcorrect', 'qtype_answersselect');
@@ -93,7 +93,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
 
             $incorrectoptions = range($answercount - $numberofcorrectanswers, 1);;
             $mform->addElement('select', 'randomselectincorrect',
-                'Number of selected incorrect answers',
+                get_string('randomselectincorrect', 'qtype_answersselect'),
                 $incorrectoptions
             );
             $mform->addHelpButton('randomselectincorrect', 'randomselectincorrect', 'qtype_answersselect');
