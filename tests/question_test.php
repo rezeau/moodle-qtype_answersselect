@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Unit tests for the OU multiple response question class.
+ * Unit tests for the answersselect question class.
  *
  * @package   qtype_answersselect
  * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
@@ -32,15 +32,13 @@ require_once($CFG->dirroot . '/question/type/answersselect/question.php');
 
 
 /**
- * Unit tests for (some of) question/type/answersselect/questiontype.php.
+ * Unit tests for the answersselect question class.
  *
  * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
  * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 class qtype_answersselect_question_test extends basic_testcase {
-    private $tolerance = 0.000001;
 
     public function test_replace_char_at() {
         $this->assertEquals(qtype_answersselect_question::replace_char_at('220', 0, '0'), '020');

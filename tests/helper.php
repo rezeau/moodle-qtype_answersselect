@@ -32,12 +32,13 @@ defined('MOODLE_INTERNAL') || die();
  * @copyright based on work by 2010 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class qtype_answersselect_test_helper {
+class qtype_answersselect_test_helper extends question_test_helper {
     public function get_test_questions() {
         return array('two_of_four', 'two_of_five');
     }
 
     /**
+     * Get an example answersselect question to use for testing. This examples has 2 correct and 2 incorrect answers.
      * @return qtype_answersselect_question
      */
     public static function make_answersselect_question_two_of_four() {
@@ -78,7 +79,7 @@ class qtype_answersselect_test_helper {
 
     /**
      * Get the question data, as it would be loaded by get_question_options, for
-     * the question returned by {@link make_an_answersselect_two_of_four()}.
+     * the question returned by make_an_answersselect_two_of_four().
      * @return object
      */
     public static function get_answersselect_question_data_two_of_four() {
@@ -184,6 +185,7 @@ class qtype_answersselect_test_helper {
     }
 
     /**
+     * Get an example answersselect question to use for testing. This examples has 2 correct and 3 incorrect answers.
      * @return qtype_answersselect_question
      */
     public static function make_answersselect_question_two_of_five() {
@@ -220,6 +222,7 @@ class qtype_answersselect_test_helper {
     }
 
     /**
+     * Get data required to save an answersselect question with 2 correct & 2 incorrect answers.
      * @return stdClass data to create an answersselect question.
      */
     public function get_answersselect_question_form_data_two_of_four() {

@@ -28,8 +28,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Checks file access for gapfill  questions.
- * @package  qtype_gapfill
+ * Checks file access for answersselect  questions.
+ * @package  qtype_answersselect
  * @category files
  * @param stdClass $course course object
  * @param stdClass $cm course module object

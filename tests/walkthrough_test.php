@@ -15,8 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * This file contains tests that walks a OU multiple response question through
- * various interaction models.
+ * This file contains tests that walks an answersselect question through various interaction models.
  *
  * @package    qtype_answersselect
  * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
@@ -34,7 +33,7 @@ require_once($CFG->dirroot . '/question/type/answersselect/questiontype.php');
 
 
 /**
- * Unit tests ofr the OU multiple response question type.
+ * Unit tests ofr the answersselect question type.
  *
  * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
  * @copyright based on work by 2010 The Open University
