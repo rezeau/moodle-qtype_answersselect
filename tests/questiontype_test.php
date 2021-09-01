@@ -18,7 +18,7 @@
  * Unit tests for the Random select answers question type class.
  *
  * @package    qtype_answersselect
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright 2021 Joseph RÃ©zeau <joseph@rezeau.org>
  * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -34,7 +34,7 @@ require_once($CFG->dirroot . '/question/type/answersselect/questiontype.php');
 /**
  * Unit tests for (some of) question/type/answersselect/questiontype.php.
  *
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright 2021 Joseph RÃ©zeau <joseph@rezeau.org>
  * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -48,6 +48,12 @@ class qtype_answersselect_test extends question_testcase {
         $this->qtype = new qtype_answersselect();
     }
 
+    /**
+     * Asserts that two strings containing XML are the same ignoring the line-endings.
+     *
+     * @param string $expectedxml
+     * @param string $xml
+     */
     public function assert_same_xml($expectedxml, $xml) {
         $this->assertEquals(str_replace("\r\n", "\n", $expectedxml),
                 str_replace("\r\n", "\n", $xml));

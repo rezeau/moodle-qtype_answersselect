@@ -18,7 +18,7 @@
  * Editing form for the Random select answers question type class.
  *
  * @package    qtype_answersselect
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright 2021 Joseph RÃ©zeau <joseph@rezeau.org>
  * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Editing form for the answersselect question type.
  *
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright 2021 Joseph RÃ©zeau <joseph@rezeau.org>
  * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -111,12 +111,11 @@ class qtype_answersselect_edit_form extends question_edit_form {
 
     /**
      * Get the list of form elements to repeat, one for each answer.
-     * @param object $mform the form being built.
-     * @param $label the label to use for each option.
-     * @param $gradeoptions the possible grades for each answer.
-     * @param $repeatedoptions reference to array of repeated options to fill
-     * @param $answersoption reference to return the name of $question->options
-     *      field holding an array of answers
+     * @param array $mform the form being built.
+     * @param string $label the label to use for each option.
+     * @param array $gradeoptions the possible grades for each answer.
+     * @param array $repeatedoptions reference to array of repeated options to fill
+     * @param array $answersoption reference to return the name of $question->options field holding an array of answers
      * @return array of form fields.
      */
     protected function get_per_answer_fields($mform, $label, $gradeoptions,

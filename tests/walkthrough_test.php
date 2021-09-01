@@ -18,7 +18,7 @@
  * This file contains tests that walks an answersselect question through various interaction models.
  *
  * @package    qtype_answersselect
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright 2021 Joseph RÃ©zeau <joseph@rezeau.org>
  * @copyright based on work by 2010 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,7 +35,7 @@ require_once($CFG->dirroot . '/question/type/answersselect/questiontype.php');
 /**
  * Unit tests ofr the answersselect question type.
  *
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright 2021 Joseph RÃ©zeau <joseph@rezeau.org>
  * @copyright based on work by 2010 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -568,6 +568,11 @@ class qtype_answersselect_walkthrough_test extends qbehaviour_walkthrough_test_b
         $this->check_current_mark(2);
     }
 
+    /**
+     * Gets contains num parts correct.
+     *
+     * @param int $num
+     */
     protected function get_contains_num_parts_correct($num) {
         $a = new stdClass();
         if ($num == 1) {

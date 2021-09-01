@@ -18,7 +18,7 @@
  * Test helper code for the Random select answers question type.
  *
  * @package    qtype_answersselect
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright 2021 Joseph RÃ©zeau <joseph@rezeau.org>
  * @copyright based on work by 2010 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -28,11 +28,17 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Test helper class for the Random select answers question type.
  *
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright 2021 Joseph RÃ©zeau <joseph@rezeau.org>
  * @copyright based on work by 2010 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_answersselect_test_helper extends question_test_helper {
+    /**
+     * This function extends question_test_helper.
+     * @return array of example question names that can be passed as the $which
+     * argument of test_question_maker::make_question when $qtype is
+     * this question type.
+     */
     public function get_test_questions() {
         return array('two_of_four', 'two_of_five');
     }
