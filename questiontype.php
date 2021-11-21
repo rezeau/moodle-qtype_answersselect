@@ -98,34 +98,40 @@ class qtype_answersselect extends question_type {
             }
         }
 
-        // NEW FEATURE for Oleg 16/09/2021.
         $oldanswers = $DB->get_records('question_answers',
-            array('question' => $question->id), 'id ASC');
+                array('question' => $question->id), 'id ASC');
+
+        // NEW FEATURE for Oleg 16/09/2021.
+        $incrementcorrect = 0;
+        $incrementincorrect = 0;
         $oldanswercount = count($oldanswers);
 
-        // Check correct answers.
-        $oldnbcorrect = 0;
-        foreach ($oldanswers as $answer) {
-            if ($answer->fraction == 1) {
-                $oldnbcorrect++;
+        // This is NOT an import, it's an edit.
+        if ($oldanswercount !== 0) {
+            // Check correct answers.
+            $oldnbcorrect = 0;
+            foreach ($oldanswers as $answer) {
+                if ($answer->fraction == 1) {
+                    $oldnbcorrect++;
+                }
+            }
+            $incrementcorrect = 0;
+            $newnbcorrect = count($question->correctanswer);
+            if ($newnbcorrect !== $oldnbcorrect) {
+                $incrementcorrect = $newnbcorrect - $oldnbcorrect;
+            }
+
+            // Check incorrect answers.
+            $oldnbincorrect = $oldanswercount - $oldnbcorrect;
+            $incrementincorrect = 0;
+            $newnbincorrect = $answercount - $newnbcorrect;
+
+            if ($newnbincorrect !== $oldnbincorrect) {
+                $incrementincorrect = $newnbincorrect - $oldnbincorrect;
             }
         }
-        $incrementcorrect = 0;
-        $newnbcorrect = count($question->correctanswer);
-        if ($newnbcorrect !== $oldnbcorrect) {
-            $incrementcorrect = $newnbcorrect - $oldnbcorrect;
-        }
 
-        // Check incorrect answers.
-        $oldnbincorrect = $oldanswercount - $oldnbcorrect;
-        $incrementincorrect = 0;
-        $newnbincorrect = $answercount - $newnbcorrect;
-
-        if ($newnbincorrect !== $oldnbincorrect) {
-            $incrementincorrect = $newnbincorrect - $oldnbincorrect;
-        }
-
-        // The following hack to checks that at least two answers exist.
+        // The following hack checks that at least two answers exist.
         if ($answercount < 2) { // Check there are at lest 2 answers for multiple choice.
             $result->notice = get_string('notenoughanswers', 'qtype_multichoice', '2');
             return $result;
@@ -479,7 +485,6 @@ class qtype_answersselect extends question_type {
                                                     $question->id,
                                                     $question->contextid);
         $output .= $format->write_answers($question->options->answers);
-
         return $output;
     }
 
