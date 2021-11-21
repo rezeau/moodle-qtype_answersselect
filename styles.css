@@ -92,3 +92,11 @@ body#page-question-type-answersselect div[id^=fgroup_id_][id*=hintoptions_] {
 body#page-question-type-answersselect div[id^=fitem_id_][id*=penalty] {
     margin-bottom: 2em;
 }
+/* Middle. Added JR november 2021. */
+body#page-question-type-answersselect .correctanswer {
+    margin-bottom: 0em;
+    background: #eee;
+    border: 1px solid #bbb;
+    border-top: 0;
+    border-bottom: 0;
+}

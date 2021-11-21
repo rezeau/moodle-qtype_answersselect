@@ -27,7 +27,7 @@ $plugin->component = 'qtype_answersselect';
 $plugin->version   = 2021091700;
 $plugin->requires  = 2020061500;
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.6';
+$plugin->release   = '1.7';
 $plugin->dependencies = array(
     'qtype_multichoice' => 2020061500,
 );
