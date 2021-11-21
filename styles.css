@@ -66,13 +66,10 @@ body#page-question-type-answersselect div[id^=fitem_id_][id*=_answer_] .fitemtit
 body#page-question-type-answersselect div[id^=fitem_id_][id*=hint_] .fitemtitle {
     font-weight: bold;
 }
-/* Middle */
-body#page-question-type-answersselect div[id^=fitem_id_][id*=correctanswer_] {
+/* Middle Modified JR nov. 2021. */
+body#page-question-type-answersselect .correctanswer {
+    margin-bottom: 0em;
     background: #eee;
-    margin-bottom: 0;
-    margin-top: 0;
-    padding-bottom: 5px;
-    padding-top: 5px;
     border: 1px solid #bbb;
     border-top: 0;
     border-bottom: 0;
@@ -91,12 +88,4 @@ body#page-question-type-answersselect div[id^=fgroup_id_][id*=hintoptions_] {
 
 body#page-question-type-answersselect div[id^=fitem_id_][id*=penalty] {
     margin-bottom: 2em;
-}
-/* Middle. Added JR november 2021. */
-body#page-question-type-answersselect .correctanswer {
-    margin-bottom: 0em;
-    background: #eee;
-    border: 1px solid #bbb;
-    border-top: 0;
-    border-bottom: 0;
 }
