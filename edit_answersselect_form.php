@@ -100,9 +100,9 @@ class qtype_answersselect_edit_form extends question_edit_form {
             $mform->setDefault('randomselectincorrect', 0);
             $mform->hideIf('randomselectincorrect', 'answersselectmode', 'neq', 1);
         };
-
+        $questionnumanswersadd = 10; // As requested by Oleg NOVEMBER 2021.
         $this->add_per_answer_fields($mform, get_string('choiceno', 'qtype_multichoice', '{no}'),
-                null, max(5, QUESTION_NUMANS_START));
+                null, max(5, QUESTION_NUMANS_START), max($questionnumanswersadd, QUESTION_NUMANS_ADD));
 
         $this->add_combined_feedback_fields(true);
 
