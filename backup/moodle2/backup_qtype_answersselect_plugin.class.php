@@ -23,9 +23,6 @@
  */
 
 
-defined('MOODLE_INTERNAL') || die();
-
-
 /**
  * Provides the information to backup answersselect questions.
  *

@@ -24,8 +24,6 @@
 
 namespace qtype_answersselect\output;
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Mobile output class for question type answersselect.
  *

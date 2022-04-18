@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 namespace qtype_answersselect\privacy;
-defined('MOODLE_INTERNAL') || die();
 /**
  * Privacy Subsystem for qtype_answersselect implementing null_provider.
  *

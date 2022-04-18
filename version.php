@@ -18,16 +18,16 @@
  * Random select answers question type version file.
  *
  * @package   qtype_answersselect
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
+ * @copyright 2022 Joseph Rézeau <joseph@rezeau.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 $plugin->component = 'qtype_answersselect';
-$plugin->version   = 2021091700;
+$plugin->version   = 2022041800;
 $plugin->requires  = 2020061500;
 $plugin->maturity  = MATURITY_STABLE;
-$plugin->release   = '1.7';
+$plugin->release   = '1.8';
 $plugin->dependencies = array(
     'qtype_multichoice' => 2020061500,
 );
