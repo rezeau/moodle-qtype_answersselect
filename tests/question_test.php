@@ -50,8 +50,10 @@ class qtype_answersselect_question_test extends basic_testcase {
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
+        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
+
         list($fraction, $state) = $mc->grade_response(array('choice0' => '1', 'choice2' => '1'));
-        $this->assertEquals(1, $fraction, '', $this->tolerance);
+        $this->assertEquals(1, $fraction, '', $tolerance);
         $this->assertEquals($state, question_state::$gradedright);
     }
 
@@ -61,8 +63,10 @@ class qtype_answersselect_question_test extends basic_testcase {
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
+        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
+
         list($fraction, $state) = $mc->grade_response(array('choice0' => '1'));
-        $this->assertEquals(0.5, $fraction, '', $this->tolerance);
+        $this->assertEquals(0.5, $fraction, '', $tolerance);
         $this->assertEquals($state, question_state::$gradedpartial);
     }
 
@@ -72,8 +76,10 @@ class qtype_answersselect_question_test extends basic_testcase {
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
+        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
+
         list($fraction, $state) = $mc->grade_response(array('choice1' => '1', 'choice3' => '1'));
-        $this->assertEquals(0, $fraction, '', $this->tolerance);
+        $this->assertEquals(0, $fraction, '', $tolerance);
         $this->assertEquals($state, question_state::$gradedwrong);
     }
 
@@ -83,9 +89,11 @@ class qtype_answersselect_question_test extends basic_testcase {
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
+        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
+
         list($fraction, $state) = $mc->grade_response(
                 array('choice0' => '1', 'choice1' => '1', 'choice3' => '1'));
-        $this->assertEquals(0, $fraction, '', $this->tolerance);
+        $this->assertEquals(0, $fraction, '', $tolerance);
         $this->assertEquals($state, question_state::$gradedpartial);
     }
 
@@ -95,8 +103,10 @@ class qtype_answersselect_question_test extends basic_testcase {
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
+        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
+
         list($fraction, $state) = $mc->grade_response(array('choice0' => '1', 'choice1' => '1'));
-        $this->assertEquals(0.5, $fraction, '', $this->tolerance);
+        $this->assertEquals(0.5, $fraction, '', $tolerance);
         $this->assertEquals($state, question_state::$gradedpartial);
     }
 
@@ -106,9 +116,11 @@ class qtype_answersselect_question_test extends basic_testcase {
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
+        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
+
         list($fraction, $state) = $mc->grade_response(array(
                 'choice0' => '1', 'choice2' => '1', 'choice3' => '1'));
-        $this->assertEquals(0.5, $fraction, '', $this->tolerance);
+        $this->assertEquals(0.5, $fraction, '', $tolerance);
         $this->assertEquals($state, question_state::$gradedpartial);
     }
 
@@ -118,9 +130,11 @@ class qtype_answersselect_question_test extends basic_testcase {
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
+        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
+
         list($fraction, $state) = $mc->grade_response(array(
                 'choice0' => '1', 'choice1' => '1', 'choice2' => '1', 'choice3' => '1'));
-        $this->assertEquals(0, $fraction, '', $this->tolerance);
+        $this->assertEquals(0, $fraction, '', $tolerance);
         $this->assertEquals($state, question_state::$gradedpartial);
     }
 }
