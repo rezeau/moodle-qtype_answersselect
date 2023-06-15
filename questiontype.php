@@ -199,6 +199,13 @@ class qtype_answersselect extends question_type {
             $options->randomselectcorrect = 0;
             $options->randomselectincorrect = 0;
         }
+        if (isset($question->hardsetamountofanswers)) {
+            $options->hardsetamountofanswers = $question->hardsetamountofanswers;
+            $options->hastobeoneincorrectanswer = $question->hastobeoneincorrectanswer;
+        } else {
+            $options->hardsetamountofanswers = 2;
+            $options->hastobeoneincorrectanswer = 0;
+        }
 
         $options = $this->save_combined_feedback_helper($options, $question, $context, true);
         $DB->update_record('question_answersselect', $options);
@@ -328,6 +335,8 @@ class qtype_answersselect extends question_type {
         $question->answersselectmode = $questiondata->options->answersselectmode;
         $question->randomselectcorrect = $questiondata->options->randomselectcorrect;
         $question->randomselectincorrect = $questiondata->options->randomselectincorrect;
+        $question->hardsetamountofanswers = $questiondata->options->hardsetamountofanswers;
+        $question->hastobeoneincorrectanswer = $questiondata->options->hastobeoneincorrectanswer;
         $question->correctchoicesseparator = $questiondata->options->correctchoicesseparator;
         $this->initialise_combined_feedback($question, $questiondata, true);
         $this->initialise_question_answers($question, $questiondata, false);
