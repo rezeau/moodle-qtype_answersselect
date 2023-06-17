@@ -31,5 +31,24 @@
  */
 function xmldb_qtype_answersselect_upgrade($oldversion) {
     global $DB;
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2023060900) {
+
+        $table = new xmldb_table('question_answersselect');
+
+        $field = new xmldb_field('hardsetamountofanswers', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, 2);
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        $field = new xmldb_field('hastobeoneincorrectanswer', XMLDB_TYPE_INTEGER, '2', null, XMLDB_NOTNULL, null, 0);
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        upgrade_plugin_savepoint(true, 2023060900, 'qtype', 'answersselect');
+    }
+
     return true;
 }

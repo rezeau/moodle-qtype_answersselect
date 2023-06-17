@@ -63,7 +63,8 @@ class qtype_answersselect_edit_form extends question_edit_form {
 
         $menu = array(get_string('useallanswers', 'qtype_answersselect'),
             get_string('manualselection', 'qtype_answersselect'),
-            get_string('automaticselection', 'qtype_answersselect'));
+            get_string('automaticselection', 'qtype_answersselect'),
+            get_string('nrandomanswersselection', 'qtype_answersselect'));
         $mform->addElement('select', 'answersselectmode',
              get_string('answersselectmode', 'qtype_answersselect'),
              $menu);
@@ -96,6 +97,24 @@ class qtype_answersselect_edit_form extends question_edit_form {
             $mform->addHelpButton('randomselectincorrect', 'randomselectincorrect', 'qtype_answersselect');
             $mform->setDefault('randomselectincorrect', 0);
             $mform->hideIf('randomselectincorrect', 'answersselectmode', 'neq', 1);
+
+            $hardsetamountofanswers = array();
+            for ($i = 2; $i <= $answercount; $i++) {
+                $hardsetamountofanswers[$i] = $i;
+            }
+            $mform->addElement('select', 'hardsetamountofanswers',
+                get_string('hardsetamountofanswers', 'qtype_answersselect'),
+                $hardsetamountofanswers
+            );
+            $mform->addHelpButton('hardsetamountofanswers', 'hardsetamountofanswers', 'qtype_answersselect');
+            $mform->setDefault('hardsetamountofanswers', 2);
+            $mform->hideIf('hardsetamountofanswers', 'answersselectmode', 'neq', 3);
+
+            $mform->addElement('advcheckbox', 'hastobeoneincorrectanswer',
+                get_string('hastobeoneincorrectanswer', 'qtype_answersselect')
+            );
+            $mform->hideIf('hastobeoneincorrectanswer', 'answersselectmode', 'neq', 3);
+
         };
         $questionnumanswersadd = 10; // As requested by Oleg NOVEMBER 2021.
         $this->add_per_answer_fields($mform, get_string('choiceno', 'qtype_multichoice', '{no}'),
@@ -197,6 +216,8 @@ class qtype_answersselect_edit_form extends question_edit_form {
             $question->answersselectmode = $question->options->answersselectmode;
             $question->randomselectcorrect = $question->options->randomselectcorrect;
             $question->randomselectincorrect = $question->options->randomselectincorrect;
+            $question->hardsetamountofanswers = $question->options->hardsetamountofanswers;
+            $question->hastobeoneincorrectanswer = $question->options->hastobeoneincorrectanswer;
             $question->correctchoicesseparator = $question->options->correctchoicesseparator;
         }
 
@@ -230,6 +251,11 @@ class qtype_answersselect_edit_form extends question_edit_form {
         // Perform sanity checks on number of correct answers.
         if ($numberofcorrectanswers == 0) {
             $errors['answer[0]'] = get_string('notenoughcorrectanswers', 'qtype_answersselect');
+        }
+
+        if (!empty($data['hardsetamountofanswers'])
+                && $data['hardsetamountofanswers'] > $answercount) {
+            $errors['hardsetamountofanswers'] = get_string('hardsetamountisgreaterthanansweramount', 'qtype_answersselect');
         }
 
         // Perform sanity checks on number of answers.

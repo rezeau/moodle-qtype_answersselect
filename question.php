@@ -348,6 +348,14 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         if ($this->answersselectmode == 2) {
             $nbcorrect = rand(1, count($correct));
             $nbincorrect = rand(1, count($incorrect));
+        } else if ($this->answersselectmode == 3) { // N random answers
+            $hardsetamountofanswers = $this->hardsetamountofanswers;
+            $incorrectanswerneeded = $this->hastobeoneincorrectanswer ? 1 : 0;
+
+            // We are getting hardsetAnswersAmount-1 because at least one answer should be correct
+            $maxincorrectanswers = min(count($incorrect), $hardsetamountofanswers-1);
+            $nbincorrect = rand($incorrectanswerneeded, $maxincorrectanswers);
+            $nbcorrect = $hardsetamountofanswers - $nbincorrect;
         } else { // Manual selection of answer numbers.
             $nbcorrect = count($correct) - $this->randomselectcorrect;
             $nbincorrect = count($incorrect) - $this->randomselectincorrect;
