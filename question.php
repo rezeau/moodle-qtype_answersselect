@@ -44,6 +44,16 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
     public $showstandardinstruction = 0;
 
     /**
+     * Declare public variables to make PHP8.2 happy.
+     */
+    public $answersselectmode;
+    public $randomselectcorrect;
+    public $randomselectincorrect;
+    public $hardsetamountofanswers;
+    public $hastobeoneincorrectanswer;
+    public $correctchoicesseparator;
+
+    /**
      * Start a new attempt at this question, storing any information that will
      * be needed later in the step and doing initialisation
      *
