@@ -585,8 +585,22 @@ class qtype_answersselect_hint extends question_hint_with_parts {
      * @param question_display_options $options display options
      * @return void
      */
+     /*
     public function adjust_display_options(question_display_options $options) {
         parent::adjust_display_options($options);
         $options->suppresschoicefeedback = !$this->showchoicefeedback;
+    }
+    */
+    public function adjust_display_options(question_display_options $options) {
+        parent::adjust_display_options($options);
+        if (defined('qtype_multichoice::COMBINED_BUT_NOT_CHOICE_FEEDBACK')) {
+            // Newer Moodle versions/
+            if ($options->feedback && !$this->showchoicefeedback) {
+                $options->feedback = qtype_multichoice::COMBINED_BUT_NOT_CHOICE_FEEDBACK;
+            }
+        } else {
+            // Older Moodle versions.
+            $options->suppresschoicefeedback = !$this->showchoicefeedback;
+        }
     }
 }
