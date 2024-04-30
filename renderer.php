@@ -101,10 +101,11 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
      */
     protected function correct_choices_answersselect(array $right, $correctchoicesseparator) {
         // Return appropriate string for single/multiple correct answer(s).
+        // Refactored in April 2024.
         if (count($right) == 1) {
                 return get_string('correctansweris', 'qtype_multichoice',
                         implode(', ', $right));
-        } else if (count($right) > 1) {
+        } else {
             if ($correctchoicesseparator == 0) {
                 $separator = ', ';
             } else if ($correctchoicesseparator == 1) {
@@ -112,11 +113,13 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
             } else {
                 $separator = '<br />';
             };
+            if ($correctchoicesseparator == 1) {
+                return get_string('correctansweris', 'qtype_multichoice',
+                        '<br />'.implode($separator, $right));
+            } else {
                 return get_string('correctanswersare', 'qtype_multichoice',
                         '<br />'.implode($separator, $right));
-        } else {
-                return "";
+            }
         }
     }
-
-}
+  }
