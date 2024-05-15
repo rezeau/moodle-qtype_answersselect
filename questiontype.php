@@ -189,9 +189,9 @@ class qtype_answersselect extends question_type {
         $options->answernumbering = $question->answernumbering;
         $options->shuffleanswers = $question->shuffleanswers;
         $options->showstandardinstruction = !empty($question->showstandardinstruction);
-        $options->correctchoicesseparator = $question->correctchoicesseparator;
+        $options->correctchoicesseparator = $question->correctchoicesseparator ?? 0;
         // Need to check that these options have been set in the edit form because they are not set by default.
-        $options->answersselectmode = $question->answersselectmode;
+        $options->answersselectmode = $question->answersselectmode ?? 0;
         if (isset($question->randomselectcorrect)) {
             $options->randomselectcorrect = $question->randomselectcorrect + $incrementcorrect;
             $options->randomselectincorrect = $question->randomselectincorrect + $incrementincorrect;

@@ -38,14 +38,14 @@ class qtype_answersselect_test_helper extends question_test_helper {
      * this question type.
      */
     public function get_test_questions() {
-        return array('two_of_four', 'two_of_five');
+        return array('mammals_two_of_four', 'mammals_two_of_five');
     }
 
     /**
      * Get an example answersselect question to use for testing. This examples has 2 correct and 2 incorrect answers.
      * @return qtype_answersselect_question
      */
-    public static function make_answersselect_question_two_of_four() {
+    public static function make_answersselect_question_mammals_two_of_four() {
 
         question_bank::load_question_definition_classes('answersselect');
         $mc = new qtype_answersselect_question();
@@ -53,8 +53,8 @@ class qtype_answersselect_test_helper extends question_test_helper {
         test_question_maker::initialise_a_question($mc);
 
         $mc->name = 'Random select answers question';
-        $mc->questiontext = 'Which are the odd numbers?';
-        $mc->generalfeedback = 'The odd numbers are One and Three.';
+        $mc->questiontext = 'Which of these animals are mammals?';
+        $mc->generalfeedback = 'The cat and the whale are mammals.';
         $mc->qtype = question_bank::get_qtype('answersselect');
         $mc->shuffleanswers = 1;
         $mc->answernumbering = '123';
@@ -67,10 +67,10 @@ class qtype_answersselect_test_helper extends question_test_helper {
         test_question_maker::set_standard_combined_feedback_fields($mc);
 
         $mc->answers = array(
-            13 => new question_answer(13, 'One', 1, 'One is odd.', FORMAT_HTML),
-            14 => new question_answer(14, 'Two', 0, 'Two is even.', FORMAT_HTML),
-            15 => new question_answer(15, 'Three', 1, 'Three is odd.', FORMAT_HTML),
-            16 => new question_answer(16, 'Four', 0, 'Four is even.', FORMAT_HTML),
+            13 => new question_answer(13, 'the cat', 1, 'Yes, the cat is a mammal.', FORMAT_HTML),
+            14 => new question_answer(14, 'the shark', 0, 'No, the shark is a fish.', FORMAT_HTML),
+            15 => new question_answer(15, 'the whale', 1, 'Yes, the whale is a mammal.', FORMAT_HTML),
+            16 => new question_answer(16, 'the tortoise', 0, 'No, the tortoise is a reptile.', FORMAT_HTML),
         );
 
         $mc->hints = array(
@@ -83,10 +83,10 @@ class qtype_answersselect_test_helper extends question_test_helper {
 
     /**
      * Get the question data, as it would be loaded by get_question_options, for
-     * the question returned by make_an_answersselect_two_of_four().
+     * the question returned by make_an_answersselect_mammals_two_of_four().
      * @return object
      */
-    public static function get_answersselect_question_data_two_of_four() {
+    public static function get_answersselect_question_data_mammals_two_of_four() {
         global $USER;
 
         $qdata = new stdClass();
@@ -102,9 +102,9 @@ class qtype_answersselect_test_helper extends question_test_helper {
         $qdata->modifiedby = $USER->id;
         $qdata->qtype = 'answersselect';
         $qdata->name = 'Random select answers question';
-        $qdata->questiontext = 'Which are the odd numbers?';
+        $qdata->questiontext = 'Which of these animals are mammals?';
         $qdata->questiontextformat = FORMAT_HTML;
-        $qdata->generalfeedback = 'The odd numbers are One and Three.';
+        $qdata->generalfeedback = 'The cat and the whale are mammals.';
         $qdata->generalfeedbackformat = FORMAT_HTML;
         $qdata->defaultmark = 1;
         $qdata->length = 1;
@@ -134,34 +134,34 @@ class qtype_answersselect_test_helper extends question_test_helper {
         $qdata->options->answers = array(
             13 => (object) array(
                 'id' => 13,
-                'answer' => 'One',
+                'answer' => 'the cat',
                 'answerformat' => FORMAT_PLAIN,
                 'fraction' => 1,
-                'feedback' => 'One is odd.',
+                'feedback' => 'yes, the cat is a mammal',
                 'feedbackformat' => FORMAT_HTML,
             ),
             14 => (object) array(
                 'id' => 14,
-                'answer' => 'Two',
+                'answer' => 'the shark',
                 'answerformat' => FORMAT_PLAIN,
                 'fraction' => 0,
-                'feedback' => 'Two is even.',
+                'feedback' => 'No, the shark is a fish.',
                 'feedbackformat' => FORMAT_HTML,
             ),
             15 => (object) array(
                 'id' => 15,
-                'answer' => 'Three',
+                'answer' => 'the whale',
                 'answerformat' => FORMAT_PLAIN,
                 'fraction' => 1,
-                'feedback' => 'Three is odd.',
+                'feedback' => 'Yes, the whale is a mammal.',
                 'feedbackformat' => FORMAT_HTML,
             ),
             16 => (object) array(
                 'id' => 16,
-                'answer' => 'Four',
+                'answer' => 'the tortoise',
                 'answerformat' => FORMAT_PLAIN,
                 'fraction' => 0,
-                'feedback' => 'Four is even.',
+                'feedback' => 'No, the tortoise is a reptile.',
                 'feedbackformat' => FORMAT_HTML,
             ),
         );
@@ -229,21 +229,21 @@ class qtype_answersselect_test_helper extends question_test_helper {
      * Get data required to save an answersselect question with 2 correct & 2 incorrect answers.
      * @return stdClass data to create an answersselect question.
      */
-    public function get_answersselect_question_form_data_two_of_four() {
+    public function get_answersselect_question_form_data_mammals_two_of_four() {
         $fromform = new stdClass();
 
         $fromform->name = 'Random select answers response question';
-        $fromform->questiontext = array('text' => 'Which are the odd numbers?', 'format' => FORMAT_HTML);
+        $fromform->questiontext = array('text' => 'Which of these animals are mammals?', 'format' => FORMAT_HTML);
         $fromform->defaultmark = 1.0;
-        $fromform->generalfeedback = array('text' => 'The odd numbers are One and Three.', 'format' => FORMAT_HTML);
+        $fromform->generalfeedback = array('text' => 'The cat and the whale are mammals.', 'format' => FORMAT_HTML);
         $fromform->shuffleanswers = 0;
         $fromform->answernumbering = 'abc';
         $fromform->showstandardinstruction = 0;
         $fromform->answer = array(
-                0 => array('text' => 'One', 'format' => FORMAT_PLAIN),
-                1 => array('text' => 'Two', 'format' => FORMAT_PLAIN),
-                2 => array('text' => 'Three', 'format' => FORMAT_PLAIN),
-                3 => array('text' => 'Four', 'format' => FORMAT_PLAIN)
+                0 => array('text' => 'the cat', 'format' => FORMAT_PLAIN),
+                1 => array('text' => 'the shark', 'format' => FORMAT_PLAIN),
+                2 => array('text' => 'the whale', 'format' => FORMAT_PLAIN),
+                3 => array('text' => 'the tortoise', 'format' => FORMAT_PLAIN)
         );
         $fromform->correctanswer = array(
                 0 => 1,
@@ -252,10 +252,10 @@ class qtype_answersselect_test_helper extends question_test_helper {
                 3 => 0
         );
         $fromform->feedback = array(
-                0 => array('text' => 'One is odd.', 'format' => FORMAT_HTML),
-                1 => array('text' => 'Two is even.', 'format' => FORMAT_HTML),
-                2 => array('text' => 'Three is odd.', 'format' => FORMAT_HTML),
-                3 => array('text' => 'Four is odd.', 'format' => FORMAT_HTML)
+                0 => array('text' => 'Yes, the cat is a mammal.', 'format' => FORMAT_HTML),
+                1 => array('text' => 'No, the shark is a fish.', 'format' => FORMAT_HTML),
+                2 => array('text' => 'Yes, the whale is a mammal.', 'format' => FORMAT_HTML),
+                3 => array('text' => 'No, the tortoise is a reptile.', 'format' => FORMAT_HTML)
         );
         test_question_maker::set_standard_combined_feedback_form_data($fromform);
         $fromform->shownumcorrect = 0;
