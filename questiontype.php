@@ -310,17 +310,6 @@ class qtype_answersselect extends question_type {
     }
 
     /**
-     * Make an answer.
-     *
-     * @param stdObject $answer the answer
-     * @return stdObject
-     */
-    public function make_answer($answer) {
-        // Overridden just so we can make it public for use by question.php.
-        return parent::make_answer($answer);
-    }
-
-    /**
      * Initialise the question instance.
      *
      * @param question_definition $question the question_definition we are creating
