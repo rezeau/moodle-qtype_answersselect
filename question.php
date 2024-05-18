@@ -44,13 +44,28 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
     public $showstandardinstruction = 0;
 
     /**
-     * Declare public variables to make PHP8.2 happy.
+     * @var object Description Declare public variables to make PHP8.2 happy.
      */
     public $answersselectmode;
+    /**
+     * @var object
+     */
     public $randomselectcorrect;
+    /**
+     * @var object
+     */
     public $randomselectincorrect;
+    /**
+     * @var object
+     */
     public $hardsetamountofanswers;
+    /**
+     * @var object
+     */
     public $hastobeoneincorrectanswer;
+    /**
+     * @var object
+     */
     public $correctchoicesseparator;
 
     /**
@@ -172,7 +187,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
             $state = question_state::$gradedpartial;
         }
 
-        return array($fraction, $state);
+        return [$fraction, $state];
     }
 
     /**
@@ -195,7 +210,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
      * @param int $totaltries Not needed
      */
     public function compute_final_grade($responses, $totaltries) {
-        $responsehistories = array();
+        $responsehistories = [];
 
         foreach ($this->order as $key => $ansid) {
             $fieldname = $this->field($key);
@@ -225,7 +240,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
             $penalty, $questionnumtries) {
         // First we reverse the strings to get the most recent responses to the start, then
         // distinguish right and wrong by replacing 1 with 2 for right answers.
-        $workspace = array();
+        $workspace = [];
         $numright = 0;
 
         foreach ($responsehistory as $id => $string) {
@@ -253,7 +268,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
             }
             if ($numselected > $numright) {
                 $numtoclear = $numselected - $numright;
-                $newworkspace = array();
+                $newworkspace = [];
                 foreach ($workspace as $string) {
                     if (substr($string, $try, 1) == '2' && $numtoclear > 0) {
                         $string = self::replace_char_at($string, $try, '0');
@@ -317,7 +332,7 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
             }
         }
 
-        return array($numright, count($this->order));
+        return [$numright, count($this->order)];
     }
 
     /**
@@ -341,8 +356,8 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
      * @return array the full list of selected correct and incorrect choices.
      */
     public function get_new_order() {
-        $correct = array();
-        $incorrect = array();
+        $correct = [];
+        $incorrect = [];
         foreach ($this->answers as $ansid => $ans) {
             if ($ans->fraction > 0) {
                 $correct[] = $ansid;
@@ -358,12 +373,12 @@ class qtype_answersselect_question extends qtype_multichoice_multi_question
         if ($this->answersselectmode == 2) {
             $nbcorrect = rand(1, count($correct));
             $nbincorrect = rand(1, count($incorrect));
-        } else if ($this->answersselectmode == 3) { // N random answers
+        } else if ($this->answersselectmode == 3) { // N random answers.
             $hardsetamountofanswers = $this->hardsetamountofanswers;
             $incorrectanswerneeded = $this->hastobeoneincorrectanswer ? 1 : 0;
 
-            // We are getting hardsetAnswersAmount-1 because at least one answer should be correct
-            $maxincorrectanswers = min(count($incorrect), $hardsetamountofanswers-1);
+            // We are getting hardsetAnswersAmount-1 because at least one answer should be correct.
+            $maxincorrectanswers = min(count($incorrect), $hardsetamountofanswers - 1);
             $nbincorrect = rand($incorrectanswerneeded, $maxincorrectanswers);
             $nbcorrect = $hardsetamountofanswers - $nbincorrect;
         } else { // Manual selection of answer numbers.

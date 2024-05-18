@@ -23,24 +23,22 @@
  */
 defined('MOODLE_INTERNAL') || die();
 
-$addons = array(
-    "qtype_answersselect" => array(
-        'handlers' => array( // Different places where the plugin will display content.
-            'answersselect' => array( // Handler unique name (alphanumeric).
-                'displaydata' => array(
-                    'title' => 'All-or-Nothing Multiple Choice question',
+$addons = [
+    "qtype_answersselect" => [
+        'handlers' => [ // Different places where the plugin will display content.
+            'answersselect' => [ // Handler unique name (alphanumeric).
+                'displaydata' => ['title' => 'All-or-Nothing Multiple Choice question',
                     'icon' => $CFG->wwwroot . '/question/type/answersselect/pix/icon.gif',
                     'class' => '',
-                ),
+                ],
                  'delegate' => 'CoreQuestionDelegate', // Delegate (where to display the link to the plugin).
                 'method' => 'mobile_get_answersselect', // Main function in \qtype_answersselect\output.
-                'offlinefunctions' => array(
-                    'mobile_get_answersselect' => array(), // Function that needs to be downloaded for offline use.
-                )
-            )
-        ),
-        'lang' => array(    // Language strings that are used in all the handlers.
-                array('pluginname', 'qtype_answersselect')
-        )
-    )
-);
+                'offlinefunctions' => ['mobile_get_answersselect' => [], // Function that needs to be downloaded for offline use.
+                ],
+            ],
+        ],
+        'lang' => [// Language strings that are used in all the handlers.
+                ['pluginname', 'qtype_answersselect'],
+        ],
+    ],
+];

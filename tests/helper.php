@@ -38,7 +38,7 @@ class qtype_answersselect_test_helper extends question_test_helper {
      * this question type.
      */
     public function get_test_questions() {
-        return array('mammals_two_of_four', 'mammals_two_of_five');
+        return ['mammals_two_of_four', 'letters_two_of_five'];
     }
 
     /**
@@ -66,17 +66,17 @@ class qtype_answersselect_test_helper extends question_test_helper {
 
         test_question_maker::set_standard_combined_feedback_fields($mc);
 
-        $mc->answers = array(
+        $mc->answers = [
             13 => new question_answer(13, 'the cat', 1, 'Yes, the cat is a mammal.', FORMAT_HTML),
             14 => new question_answer(14, 'the shark', 0, 'No, the shark is a fish.', FORMAT_HTML),
             15 => new question_answer(15, 'the whale', 1, 'Yes, the whale is a mammal.', FORMAT_HTML),
             16 => new question_answer(16, 'the tortoise', 0, 'No, the tortoise is a reptile.', FORMAT_HTML),
-        );
+        ];
 
-        $mc->hints = array(
+        $mc->hints = [
             new qtype_answersselect_hint(1, 'Hint 1.', FORMAT_HTML, true, false, false),
             new qtype_answersselect_hint(2, 'Hint 2.', FORMAT_HTML, true, true, true),
-        );
+        ];
 
         return $mc;
     }
@@ -131,59 +131,59 @@ class qtype_answersselect_test_helper extends question_test_helper {
                 test_question_maker::STANDARD_OVERALL_INCORRECT_FEEDBACK;
         $qdata->options->incorrectfeedbackformat = FORMAT_HTML;
 
-        $qdata->options->answers = array(
-            13 => (object) array(
+        $qdata->options->answers = [
+            13 => (object) [
                 'id' => 13,
                 'answer' => 'the cat',
                 'answerformat' => FORMAT_PLAIN,
                 'fraction' => 1,
-                'feedback' => 'yes, the cat is a mammal',
+                'feedback' => 'Yes, the cat is a mammal.',
                 'feedbackformat' => FORMAT_HTML,
-            ),
-            14 => (object) array(
+            ],
+            14 => (object) [
                 'id' => 14,
                 'answer' => 'the shark',
                 'answerformat' => FORMAT_PLAIN,
                 'fraction' => 0,
                 'feedback' => 'No, the shark is a fish.',
                 'feedbackformat' => FORMAT_HTML,
-            ),
-            15 => (object) array(
+            ],
+            15 => (object) [
                 'id' => 15,
                 'answer' => 'the whale',
                 'answerformat' => FORMAT_PLAIN,
                 'fraction' => 1,
                 'feedback' => 'Yes, the whale is a mammal.',
                 'feedbackformat' => FORMAT_HTML,
-            ),
-            16 => (object) array(
+            ],
+            16 => (object) [
                 'id' => 16,
                 'answer' => 'the tortoise',
                 'answerformat' => FORMAT_PLAIN,
                 'fraction' => 0,
                 'feedback' => 'No, the tortoise is a reptile.',
                 'feedbackformat' => FORMAT_HTML,
-            ),
-        );
+            ],
+        ];
 
-        $qdata->hints = array(
-            1 => (object) array(
+        $qdata->hints = [
+            1 => (object) [
                 'id' => 1,
                 'hint' => 'Hint 1.',
                 'hintformat' => FORMAT_HTML,
                 'shownumcorrect' => 1,
                 'clearwrong' => 0,
                 'options' => 0,
-            ),
-            2 => (object) array(
+            ],
+            2 => (object) [
                 'id' => 2,
                 'hint' => 'Hint 2.',
                 'hintformat' => FORMAT_HTML,
                 'shownumcorrect' => 1,
                 'clearwrong' => 1,
                 'options' => 1,
-            ),
-        );
+            ],
+        ];
 
         return $qdata;
     }
@@ -192,14 +192,14 @@ class qtype_answersselect_test_helper extends question_test_helper {
      * Get an example answersselect question to use for testing. This examples has 2 correct and 3 incorrect answers.
      * @return qtype_answersselect_question
      */
-    public static function make_answersselect_question_two_of_five() {
+    public static function make_answersselect_question_letters_two_of_five() {
         question_bank::load_question_definition_classes('answersselect');
         $mc = new qtype_answersselect_question();
 
         test_question_maker::initialise_a_question($mc);
 
-        $mc->name = 'Random select answers three of five';
-        $mc->questiontext = 'The answer is A, B and C';
+        $mc->name = 'Random select answers two of five';
+        $mc->questiontext = 'The answer is A and B';
         $mc->generalfeedback = '';
         $mc->qtype = question_bank::get_qtype('answersselect');
 
@@ -209,18 +209,18 @@ class qtype_answersselect_test_helper extends question_test_helper {
 
         test_question_maker::set_standard_combined_feedback_fields($mc);
 
-        $mc->answers = array(
+        $mc->answers = [
             13 => new question_answer(13, 'A', 1, '', FORMAT_HTML),
             14 => new question_answer(14, 'B', 1, '', FORMAT_HTML),
             15 => new question_answer(15, 'C', 0, '', FORMAT_HTML),
             16 => new question_answer(16, 'D', 0, '', FORMAT_HTML),
             17 => new question_answer(17, 'E', 0, '', FORMAT_HTML),
-        );
+        ];
 
-        $mc->hints = array(
+        $mc->hints = [
             1 => new qtype_answersselect_hint(1, 'Hint 1.', FORMAT_HTML, true, false, false),
             2 => new qtype_answersselect_hint(2, 'Hint 2.', FORMAT_HTML, true, true, true),
-        );
+        ];
 
         return $mc;
     }
@@ -233,30 +233,29 @@ class qtype_answersselect_test_helper extends question_test_helper {
         $fromform = new stdClass();
 
         $fromform->name = 'Random select answers response question';
-        $fromform->questiontext = array('text' => 'Which of these animals are mammals?', 'format' => FORMAT_HTML);
+        $fromform->questiontext = ['text' => 'Which of these animals are mammals?', 'format' => FORMAT_HTML];
         $fromform->defaultmark = 1.0;
-        $fromform->generalfeedback = array('text' => 'The cat and the whale are mammals.', 'format' => FORMAT_HTML);
+        $fromform->generalfeedback = ['text' => 'The cat and the whale are mammals.', 'format' => FORMAT_HTML];
         $fromform->shuffleanswers = 0;
         $fromform->answernumbering = 'abc';
         $fromform->showstandardinstruction = 0;
-        $fromform->answer = array(
-                0 => array('text' => 'the cat', 'format' => FORMAT_PLAIN),
-                1 => array('text' => 'the shark', 'format' => FORMAT_PLAIN),
-                2 => array('text' => 'the whale', 'format' => FORMAT_PLAIN),
-                3 => array('text' => 'the tortoise', 'format' => FORMAT_PLAIN)
-        );
-        $fromform->correctanswer = array(
+        $fromform->answer = [
+                0 => ['text' => 'the cat', 'format' => FORMAT_PLAIN],
+                1 => ['text' => 'the shark', 'format' => FORMAT_PLAIN],
+                2 => ['text' => 'the whale', 'format' => FORMAT_PLAIN],
+                3 => ['text' => 'the tortoise', 'format' => FORMAT_PLAIN],
+        ];
+        $fromform->correctanswer = [
                 0 => 1,
                 1 => 0,
                 2 => 1,
-                3 => 0
-        );
-        $fromform->feedback = array(
-                0 => array('text' => 'Yes, the cat is a mammal.', 'format' => FORMAT_HTML),
-                1 => array('text' => 'No, the shark is a fish.', 'format' => FORMAT_HTML),
-                2 => array('text' => 'Yes, the whale is a mammal.', 'format' => FORMAT_HTML),
-                3 => array('text' => 'No, the tortoise is a reptile.', 'format' => FORMAT_HTML)
-        );
+                3 => 0,
+        ];
+        $fromform->feedback = [0 => ['text' => 'Yes, the cat is a mammal.', 'format' => FORMAT_HTML],
+                1 => ['text' => 'No, the shark is a fish.', 'format' => FORMAT_HTML],
+                2 => ['text' => 'Yes, the whale is a mammal.', 'format' => FORMAT_HTML],
+                3 => ['text' => 'No, the tortoise is a reptile.', 'format' => FORMAT_HTML],
+        ];
         test_question_maker::set_standard_combined_feedback_form_data($fromform);
         $fromform->shownumcorrect = 0;
         $fromform->penalty = 0.3333333;

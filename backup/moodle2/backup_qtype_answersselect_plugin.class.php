@@ -50,20 +50,20 @@ class backup_qtype_answersselect_plugin extends backup_qtype_plugin {
         $this->add_question_question_answers($pluginwrapper);
 
         // Now create the qtype own structures.
-        $answersselect = new backup_nested_element('answersselect', array('id'), array(
+        $answersselect = new backup_nested_element('answersselect', ['id'], [
             'answersselectmode', 'randomselectcorrect', 'randomselectincorrect', 'correctchoicesseparator',
             'hardsetamountofanswers', 'hastobeoneincorrectanswer',
             'shuffleanswers', 'correctfeedback', 'correctfeedbackformat',
             'partiallycorrectfeedback', 'partiallycorrectfeedbackformat',
             'incorrectfeedback', 'incorrectfeedbackformat', 'answernumbering',
-            'shownumcorrect', 'showstandardinstruction'));
+            'shownumcorrect', 'showstandardinstruction']);
 
         // Now the own qtype tree.
         $pluginwrapper->add_child($answersselect);
 
         // Set source to populate the data.
         $answersselect->set_source_table('question_answersselect',
-                array('questionid' => backup::VAR_PARENTID));
+                ['questionid' => backup::VAR_PARENTID]);
 
         // Don't need to annotate ids nor files.
 
@@ -77,9 +77,9 @@ class backup_qtype_answersselect_plugin extends backup_qtype_plugin {
      * files to be processed both in backup and restore.
      */
     public static function get_qtype_fileareas() {
-        return array(
+        return [
             'correctfeedback' => 'question_created',
             'partiallycorrectfeedback' => 'question_created',
-            'incorrectfeedback' => 'question_created');
+            'incorrectfeedback' => 'question_created'];
     }
 }

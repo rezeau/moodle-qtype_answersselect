@@ -39,7 +39,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
      */
     protected function definition_inner($mform) {
         $mform->addElement('advcheckbox', 'shuffleanswers',
-                get_string('shuffleanswers', 'qtype_multichoice'), null, null, array(0, 1));
+                get_string('shuffleanswers', 'qtype_multichoice'), null, null, [0, 1]);
         $mform->addHelpButton('shuffleanswers', 'shuffleanswers', 'qtype_multichoice');
         $mform->setDefault('shuffleanswers', 1);
 
@@ -53,18 +53,18 @@ class qtype_answersselect_edit_form extends question_edit_form {
         $mform->addHelpButton('showstandardinstruction', 'showstandardinstruction', 'qtype_answersselect');
         $mform->setDefault('showstandardinstruction', 0);
 
-        $correctchoicesseparator = array(get_string('comma', 'qtype_answersselect'),
+        $correctchoicesseparator = [get_string('comma', 'qtype_answersselect'),
             get_string('blankspace', 'qtype_answersselect'),
-            get_string('linebreak', 'qtype_answersselect'));
+            get_string('linebreak', 'qtype_answersselect')];
         $mform->addElement('select', 'correctchoicesseparator',
                 get_string('correctchoicesseparator', 'qtype_answersselect'),
                 $correctchoicesseparator);
         $mform->addHelpButton('correctchoicesseparator', 'correctchoicesseparator', 'qtype_answersselect');
 
-        $menu = array(get_string('useallanswers', 'qtype_answersselect'),
+        $menu = [get_string('useallanswers', 'qtype_answersselect'),
             get_string('manualselection', 'qtype_answersselect'),
             get_string('automaticselection', 'qtype_answersselect'),
-            get_string('nrandomanswersselection', 'qtype_answersselect'));
+            get_string('nrandomanswersselection', 'qtype_answersselect')];
         $mform->addElement('select', 'answersselectmode',
              get_string('answersselectmode', 'qtype_answersselect'),
              $menu);
@@ -98,7 +98,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
             $mform->setDefault('randomselectincorrect', 0);
             $mform->hideIf('randomselectincorrect', 'answersselectmode', 'neq', 1);
 
-            $hardsetamountofanswers = array();
+            $hardsetamountofanswers = [];
             for ($i = 2; $i <= $answercount; $i++) {
                 $hardsetamountofanswers[$i] = $i;
             }
@@ -136,13 +136,13 @@ class qtype_answersselect_edit_form extends question_edit_form {
      */
     protected function get_per_answer_fields($mform, $label, $gradeoptions,
             &$repeatedoptions, &$answersoption) {
-        $repeated = array();
+        $repeated = [];
         $repeated[] = $mform->createElement('editor', 'answer',
-                $label, array('rows' => 1), $this->editoroptions);
+                $label, ['rows' => 1], $this->editoroptions);
         $repeated[] = $mform->createElement('checkbox', 'correctanswer',
                 get_string('correctanswer', 'qtype_answersselect'), '', 'class = "correctanswer"');
         $repeated[] = $mform->createElement('editor', 'feedback',
-                get_string('feedback', 'question'), array('rows' => 1), $this->editoroptions);
+                get_string('feedback', 'question'), ['rows' => 1], $this->editoroptions);
 
         // These are returned by arguments passed by reference.
         $repeatedoptions['answer']['type'] = PARAM_RAW;
@@ -178,7 +178,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
             $repeated[] = $showchoicefeedback;
         }
 
-        return array($repeated, $repeatedoptions);
+        return [$repeated, $repeatedoptions];
     }
 
     /**

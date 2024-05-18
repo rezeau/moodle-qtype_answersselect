@@ -71,7 +71,7 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
     public function correct_response(question_attempt $qa) {
         $randomorderslectorder = explode(',', $qa->get_step(0)->get_qt_var('_order'));
         $question = $qa->get_question();
-        $right = array();
+        $right = [];
         foreach ($question->answers as $ansid => $ans) {
             // Do not display correct answers which have not been randomly selected in the question.
             if (!in_array($ans->id, $randomorderslectorder)) {
@@ -84,7 +84,7 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
                 *  Used as a replacement for default function make_html_inline($html).
                 */
                 $replacement = '';
-                $patterns = array('/<p.*?\>/', '/<\/p>/', '/(<br|br \/)>/');
+                $patterns = ['/<p.*?\>/', '/<\/p>/', '/(<br|br \/)>/'];
                 $t = preg_replace($patterns, $replacement, $t, -1 );
                 $right[] = $t;
             }
@@ -122,4 +122,4 @@ class qtype_answersselect_renderer extends qtype_multichoice_multi_renderer {
             }
         }
     }
-  }
+}

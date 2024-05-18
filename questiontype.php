@@ -75,7 +75,7 @@ class qtype_answersselect extends question_type {
     public function get_question_options($question) {
         global $DB;
         $question->options = $DB->get_record('question_answersselect',
-                array('questionid' => $question->id), '*', MUST_EXIST);
+                ['questionid' => $question->id], '*', MUST_EXIST);
         parent::get_question_options($question);
     }
 
@@ -99,7 +99,7 @@ class qtype_answersselect extends question_type {
         }
 
         $oldanswers = $DB->get_records('question_answers',
-                array('question' => $question->id), 'id ASC');
+                ['question' => $question->id], 'id ASC');
 
         // NEW FEATURE for Oleg 16/09/2021.
         $incrementcorrect = 0;
@@ -138,7 +138,7 @@ class qtype_answersselect extends question_type {
         }
 
         // Insert all the new answers.
-        $answers = array();
+        $answers = [];
         foreach ($question->answer as $key => $answerdata) {
             if (trim($answerdata['text']) == '') {
                 continue;
@@ -170,11 +170,11 @@ class qtype_answersselect extends question_type {
         $fs = get_file_storage();
         foreach ($oldanswers as $oldanswer) {
             $fs->delete_area_files($context->id, 'question', 'answerfeedback', $oldanswer->id);
-            $DB->delete_records('question_answers', array('id' => $oldanswer->id));
+            $DB->delete_records('question_answers', ['id' => $oldanswer->id]);
         }
 
         $options = $DB->get_record('question_answersselect',
-                array('questionid' => $question->id));
+                ['questionid' => $question->id]);
         if (!$options) {
             $options = new stdClass();
             $options->questionid = $question->id;
@@ -225,7 +225,7 @@ class qtype_answersselect extends question_type {
         $context = $formdata->context;
 
         $oldhints = $DB->get_records('question_hints',
-                array('questionid' => $formdata->id), 'id ASC');
+                ['questionid' => $formdata->id], 'id ASC');
 
         if (!empty($formdata->hint)) {
             $numhints = max(array_keys($formdata->hint)) + 1;
@@ -295,7 +295,7 @@ class qtype_answersselect extends question_type {
         $fs = get_file_storage();
         foreach ($oldhints as $oldhint) {
             $fs->delete_area_files($context->id, 'question', 'hint', $oldhint->id);
-            $DB->delete_records('question_hints', array('id' => $oldhint->id));
+            $DB->delete_records('question_hints', ['id' => $oldhint->id]);
         }
     }
 
@@ -335,8 +335,8 @@ class qtype_answersselect extends question_type {
         $question->answersselectmode = $questiondata->options->answersselectmode;
         $question->randomselectcorrect = $questiondata->options->randomselectcorrect;
         $question->randomselectincorrect = $questiondata->options->randomselectincorrect;
-        $question->hardsetamountofanswers = $questiondata->options->hardsetamountofanswers;
-        $question->hastobeoneincorrectanswer = $questiondata->options->hastobeoneincorrectanswer;
+        $question->hardsetamountofanswers = $questiondata->options->hardsetamountofanswers ?? 0;
+        $question->hastobeoneincorrectanswer = $questiondata->options->hastobeoneincorrectanswer ?? 0;
         $question->correctchoicesseparator = $questiondata->options->correctchoicesseparator;
         $this->initialise_combined_feedback($question, $questiondata, true);
         $this->initialise_question_answers($question, $questiondata, false);
@@ -351,7 +351,7 @@ class qtype_answersselect extends question_type {
      */
     public function delete_question($questionid, $contextid) {
         global $DB;
-        $DB->delete_records('question_answersselect', array('questionid' => $questionid));
+        $DB->delete_records('question_answersselect', ['questionid' => $questionid]);
         return parent::delete_question($questionid, $contextid);
     }
 
@@ -395,11 +395,11 @@ class qtype_answersselect extends question_type {
      */
     public function get_possible_responses($questiondata) {
         $numright = $this->get_num_correct_choices($questiondata);
-        $parts = array();
+        $parts = [];
 
         foreach ($questiondata->options->answers as $aid => $answer) {
-            $parts[$aid] = array($aid =>
-                    new question_possible_response($answer->answer, $answer->fraction / $numright));
+            $parts[$aid] = [$aid =>
+                    new question_possible_response($answer->answer, $answer->fraction / $numright)];
         }
 
         return $parts;
@@ -425,19 +425,19 @@ class qtype_answersselect extends question_type {
         $question->qtype = 'answersselect';
 
         $question->shuffleanswers = $format->trans_single(
-                $format->getpath($data, array('#', 'shuffleanswers', 0, '#'), 1));
+                $format->getpath($data, ['#', 'shuffleanswers', 0, '#'], 1));
         $question->answernumbering = $format->getpath($data,
-                array('#', 'answernumbering', 0, '#'), 'abc');
+                ['#', 'answernumbering', 0, '#'], 'abc');
         $question->showstandardinstruction = $format->getpath($data,
-            array('#', 'showstandardinstruction', 0, '#'), 1);
+            ['#', 'showstandardinstruction', 0, '#'], 1);
         $question->answersselectmode = $format->getpath($data,
-            array('#', 'answersselectmode', 0, '#'), 1);
+            ['#', 'answersselectmode', 0, '#'], 1);
         $question->randomselectcorrect = $format->getpath($data,
-            array('#', 'randomselectcorrect', 0, '#'), 1);
+            ['#', 'randomselectcorrect', 0, '#'], 1);
         $question->randomselectincorrect = $format->getpath($data,
-            array('#', 'randomselectincorrect', 0, '#'), 1);
+            ['#', 'randomselectincorrect', 0, '#'], 1);
         $question->correctchoicesseparator = $format->getpath($data,
-            array('#', 'correctchoicesseparator', 0, '#'), 1);
+            ['#', 'correctchoicesseparator', 0, '#'], 1);
 
         $format->import_combined_feedback($question, $data, true);
 
@@ -454,7 +454,7 @@ class qtype_answersselect extends question_type {
             if (array_key_exists('correctanswer', $answer['#'])) {
                 $keys = array_keys($question->correctanswer);
                 $question->correctanswer[end($keys)] = $format->getpath($answer,
-                        array('#', 'correctanswer', 0, '#'), 0);
+                        ['#', 'correctanswer', 0, '#'], 0);
             }
         }
 
@@ -550,7 +550,7 @@ class qtype_answersselect extends question_type {
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_answersselect_hint extends question_hint_with_parts {
-    /** @var boolean whether to show the feedback for each choice. */
+    /** @var bool whether to show the feedback for each choice. */
     public $showchoicefeedback;
 
     /**
@@ -585,16 +585,10 @@ class qtype_answersselect_hint extends question_hint_with_parts {
      * @param question_display_options $options display options
      * @return void
      */
-     /*
-    public function adjust_display_options(question_display_options $options) {
-        parent::adjust_display_options($options);
-        $options->suppresschoicefeedback = !$this->showchoicefeedback;
-    }
-    */
     public function adjust_display_options(question_display_options $options) {
         parent::adjust_display_options($options);
         if (defined('qtype_multichoice::COMBINED_BUT_NOT_CHOICE_FEEDBACK')) {
-            // Newer Moodle versions/
+            // Newer Moodle versions.
             if ($options->feedback && !$this->showchoicefeedback) {
                 $options->feedback = qtype_multichoice::COMBINED_BUT_NOT_CHOICE_FEEDBACK;
             }

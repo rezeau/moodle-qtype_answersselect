@@ -18,11 +18,17 @@
  * Unit tests for the Random select answers question type class.
  *
  * @package    qtype_answersselect
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
- * @copyright based on work by 2008 The Open University
+ * @copyright  2021 Joseph Rézeau
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace qtype_answersselect;
+
+use qtype_answersselect;
+use test_question_maker;
+use question_possible_response;
+use question_answer;
+use question_check_specified_fields_expectation;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -34,11 +40,11 @@ require_once($CFG->dirroot . '/question/type/answersselect/questiontype.php');
 /**
  * Unit tests for (some of) question/type/answersselect/questiontype.php.
  *
- * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
- * @copyright based on work by 2008 The Open University
+ * @copyright  2021 Joseph Rézeau
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @covers ::everything
  */
-class qtype_answersselect_test extends question_testcase {
+final class questiontype_test extends \question_testcase {
     /**
      * @var qtype_answersselect
      */
@@ -49,23 +55,21 @@ class qtype_answersselect_test extends question_testcase {
     }
 
     /**
-     * Asserts that two strings containing XML are the same ignoring the line-endings.
-     *
-     * @param string $expectedxml
-     * @param string $xml
+     * @param object $expectedxml 
+     * @param object $xml
      */
-    public function assert_same_xml($expectedxml, $xml) {
+    public function assert_same_xml($expectedxml, $xml): void {
         $this->assertEquals(str_replace("\r\n", "\n", $expectedxml),
                 str_replace("\r\n", "\n", $xml));
     }
 
-    public function test_name() {
+    public function test_name(): void {
         $this->assertEquals($this->qtype->name(), 'answersselect');
     }
 
-    public function test_initialise_question_instance() {
-        $qdata = test_question_maker::get_question_data('answersselect', 'two_of_four');
-        $expectedq = test_question_maker::make_question('answersselect', 'two_of_four');
+    public function test_initialise_question_instance(): void {
+        $qdata = test_question_maker::get_question_data('answersselect', 'mammals_two_of_four');
+        $expectedq = test_question_maker::make_question('answersselect', 'mammals_two_of_four');
         $qdata->stamp = $expectedq->stamp;
         $qdata->version = $expectedq->version;
         $qdata->timecreated = $expectedq->timecreated;
@@ -76,36 +80,36 @@ class qtype_answersselect_test extends question_testcase {
         $this->assertEquals($expectedq, $question);
     }
 
-    public function test_can_analyse_responses() {
+    public function test_can_analyse_responses(): void {
         $this->assertTrue($this->qtype->can_analyse_responses());
     }
 
-    public function test_get_possible_responses() {
-        $q = new stdClass();
+    public function test_get_possible_responses(): void {
+        $q = new \stdClass();
         $q->id = 1;
-        $q->options = new stdClass();
+        $q->options = new \stdClass();
         $q->options->answers = [
-            1 => (object) array('answer' => 'frog', 'fraction' => 1),
-            2 => (object) array('answer' => 'toad', 'fraction' => 1),
-            3 => (object) array('answer' => 'newt', 'fraction' => 0),
+            1 => (object) ['answer' => 'frog', 'fraction' => 1],
+            2 => (object) ['answer' => 'toad', 'fraction' => 1],
+            3 => (object) ['answer' => 'newt', 'fraction' => 0],
         ];
         $responses = $this->qtype->get_possible_responses($q);
 
-        $this->assertEquals(array(
-            1 => array(1 => new question_possible_response('frog', 0.5)),
-            2 => array(2 => new question_possible_response('toad', 0.5)),
-            3 => array(3 => new question_possible_response('newt', 0)),
-        ), $this->qtype->get_possible_responses($q));
+        $this->assertEquals([
+            1 => [1 => new question_possible_response('frog', 0.5)],
+            2 => [2 => new question_possible_response('toad', 0.5)],
+            3 => [3 => new question_possible_response('newt', 0)],
+        ], $this->qtype->get_possible_responses($q));
     }
 
-    public function test_get_random_guess_score() {
-        $questiondata = new stdClass();
-        $questiondata->options = new stdClass();
-        $questiondata->options->answers = array(
+    public function test_get_random_guess_score(): void {
+        $questiondata = new \stdClass();
+        $questiondata->options = new \stdClass();
+        $questiondata->options->answers = [
             1 => new question_answer(1, 'A', 1, '', FORMAT_HTML),
             2 => new question_answer(2, 'B', 0, '', FORMAT_HTML),
             3 => new question_answer(3, 'C', 0, '', FORMAT_HTML),
-        );
+        ];
         $this->assertEquals(1 / 3,
                 $this->qtype->get_random_guess_score($questiondata), '', 0.000001);
 
@@ -118,16 +122,16 @@ class qtype_answersselect_test extends question_testcase {
                 $this->qtype->get_random_guess_score($questiondata), '', 0.000001);
     }
 
-    public function test_xml_import() {
+    public function test_xml_import(): void {
         $xml = '  <question type="answersselect">
     <name>
       <text>Random select answers question</text>
     </name>
     <questiontext format="html">
-      <text>Which are the odd numbers?</text>
+      <text>Which of these animals are mammals?</text>
     </questiontext>
     <generalfeedback>
-      <text>General feedback.</text>
+      <text>The cat and the whale are mammals.</text>
     </generalfeedback>
     <defaultgrade>6</defaultgrade>
     <penalty>0.3333333</penalty>
@@ -135,10 +139,6 @@ class qtype_answersselect_test extends question_testcase {
     <answernumbering>abc</answernumbering>
     <shuffleanswers>true</shuffleanswers>
     <showstandardinstruction>0</showstandardinstruction>
-    <answersselectmode>0</answersselectmode>
-    <randomselectcorrect>0</randomselectcorrect>
-    <randomselectincorrect>0</randomselectincorrect>
-    <correctchoicesseparator>0</correctchoicesseparator>
     <correctfeedback>
       <text>Well done.</text>
     </correctfeedback>
@@ -185,60 +185,60 @@ class qtype_answersselect_test extends question_testcase {
   </question>';
         $xmldata = xmlize($xml);
 
-        $importer = new qformat_xml();
+        $importer = new \qformat_xml();
         $q = $importer->try_importing_using_qtypes(
                 $xmldata['question'], null, null, 'answersselect');
 
-        $expectedq = new stdClass();
+        $expectedq = new \stdClass();
         $expectedq->qtype = 'answersselect';
         $expectedq->name = 'Random select answers question';
-        $expectedq->questiontext = 'Which are the odd numbers?';
+        $expectedq->questiontext = 'Which of these animals are mammals?';
         $expectedq->questiontextformat = FORMAT_HTML;
-        $expectedq->generalfeedback = 'General feedback.';
+        $expectedq->generalfeedback = 'The cat and the whale are mammals.';
         $expectedq->generalfeedbackformat = FORMAT_HTML;
         $expectedq->defaultmark = 6;
         $expectedq->length = 1;
         $expectedq->penalty = 0.3333333;
 
         $expectedq->shuffleanswers = 1;
-        $expectedq->correctfeedback = array('text' => 'Well done.',
-                'format' => FORMAT_HTML);
-        $expectedq->partiallycorrectfeedback = array('text' => 'Not entirely.',
-                'format' => FORMAT_HTML);
+        $expectedq->correctfeedback = ['text' => 'Well done.',
+                'format' => FORMAT_HTML];
+        $expectedq->partiallycorrectfeedback = ['text' => 'Not entirely.',
+                'format' => FORMAT_HTML];
         $expectedq->shownumcorrect = false;
-        $expectedq->incorrectfeedback = array('text' => 'Completely wrong!',
-                'format' => FORMAT_HTML);
+        $expectedq->incorrectfeedback = ['text' => 'Completely wrong!',
+                'format' => FORMAT_HTML];
 
-        $expectedq->answer = array(
-            array('text' => 'One', 'format' => FORMAT_HTML),
-            array('text' => 'Two', 'format' => FORMAT_HTML),
-            array('text' => 'Three', 'format' => FORMAT_HTML),
-            array('text' => 'Four', 'format' => FORMAT_HTML),
-        );
-        $expectedq->correctanswer = array(1, 0, 1, 0);
-        $expectedq->feedback = array(
-            array('text' => 'Specific feedback to correct answer.',
-                    'format' => FORMAT_HTML),
-            array('text' => 'Specific feedback to wrong answer.',
-                    'format' => FORMAT_HTML),
-            array('text' => 'Specific feedback to correct answer.',
-                    'format' => FORMAT_HTML),
-            array('text' => 'Specific feedback to wrong answer.',
-                    'format' => FORMAT_HTML),
-        );
+        $expectedq->answer = [
+            ['text' => 'One', 'format' => FORMAT_HTML],
+            ['text' => 'Two', 'format' => FORMAT_HTML],
+            ['text' => 'Three', 'format' => FORMAT_HTML],
+            ['text' => 'Four', 'format' => FORMAT_HTML],
+        ];
+        $expectedq->correctanswer = [1, 0, 1, 0];
+        $expectedq->feedback = [
+            ['text' => 'Specific feedback to correct answer.',
+                    'format' => FORMAT_HTML],
+            ['text' => 'Specific feedback to wrong answer.',
+                    'format' => FORMAT_HTML],
+            ['text' => 'Specific feedback to correct answer.',
+                    'format' => FORMAT_HTML],
+            ['text' => 'Specific feedback to wrong answer.',
+                    'format' => FORMAT_HTML],
+        ];
 
-        $expectedq->hint = array(
-                array('text' => 'Try again.', 'format' => FORMAT_HTML),
-                array('text' => 'Hint 2.', 'format' => FORMAT_HTML));
-        $expectedq->hintshownumcorrect = array(true, true);
-        $expectedq->hintclearwrong = array(false, true);
-        $expectedq->hintshowchoicefeedback = array(false, true);
+        $expectedq->hint = [
+                ['text' => 'Try again.', 'format' => FORMAT_HTML],
+                ['text' => 'Hint 2.', 'format' => FORMAT_HTML]];
+        $expectedq->hintshownumcorrect = [true, true];
+        $expectedq->hintclearwrong = [false, true];
+        $expectedq->hintshowchoicefeedback = [false, true];
 
         $this->assert(new question_check_specified_fields_expectation($expectedq), $q);
         $this->assertEquals($expectedq->answer, $q->answer);
     }
 
-    public function test_xml_import_legacy() {
+    public function test_xml_import_legacy(): void {
         $xml = '  <question type="answersselect">
     <name>
       <text>008 OUMR feedback test</text>
@@ -315,11 +315,11 @@ class qtype_answersselect_test extends question_testcase {
   </question>';
         $xmldata = xmlize($xml);
 
-        $importer = new qformat_xml();
+        $importer = new \qformat_xml();
         $q = $importer->try_importing_using_qtypes(
                 $xmldata['question'], null, null, 'answersselect');
 
-        $expectedq = new stdClass();
+        $expectedq = new \stdClass();
         $expectedq->qtype = 'answersselect';
         $expectedq->name = '008 OUMR feedback test';
         $expectedq->questiontext = '<p>OUMR question.</p><p>Right answers are ' .
@@ -333,48 +333,47 @@ class qtype_answersselect_test extends question_testcase {
 
         $expectedq->shuffleanswers = 1;
         $expectedq->answernumbering = 'abc';
-        $expectedq->correctfeedback = array('text' => 'Correct overall feedback',
-                'format' => FORMAT_HTML);
-        $expectedq->partiallycorrectfeedback = array(
-                'text' => 'Partially correct overall feedback.',
-                'format' => FORMAT_HTML);
+        $expectedq->correctfeedback = ['text' => 'Correct overall feedback',
+                'format' => FORMAT_HTML];
+        $expectedq->partiallycorrectfeedback = ['text' => 'Partially correct overall feedback.',
+                'format' => FORMAT_HTML];
         $expectedq->shownumcorrect = false;
-        $expectedq->incorrectfeedback = array('text' => 'Incorrect overall feedback.',
-                'format' => FORMAT_HTML);
+        $expectedq->incorrectfeedback = ['text' => 'Incorrect overall feedback.',
+                'format' => FORMAT_HTML];
 
-        $expectedq->answer = array(
-            array('text' => 'eighta', 'format' => FORMAT_HTML),
-            array('text' => 'eightb', 'format' => FORMAT_HTML),
-            array('text' => 'one', 'format' => FORMAT_HTML),
-            array('text' => 'two', 'format' => FORMAT_HTML));
-        $expectedq->correctanswer = array(1, 1, 0, 0);
-        $expectedq->feedback = array(
-            array('text' => '<p>Specific feedback to correct answer.</p>',
-                    'format' => FORMAT_HTML),
-            array('text' => '<p>Specific feedback to correct answer.</p>',
-                    'format' => FORMAT_HTML),
-            array('text' => '<p>Specific feedback to wrong answer.</p>',
-                    'format' => FORMAT_HTML),
-            array('text' => '<p>Specific feedback to wrong answer.</p>',
-                    'format' => FORMAT_HTML),
-        );
+        $expectedq->answer = [
+            ['text' => 'eighta', 'format' => FORMAT_HTML],
+            ['text' => 'eightb', 'format' => FORMAT_HTML],
+            ['text' => 'one', 'format' => FORMAT_HTML],
+            ['text' => 'two', 'format' => FORMAT_HTML]];
+        $expectedq->correctanswer = [1, 1, 0, 0];
+        $expectedq->feedback = [
+            ['text' => '<p>Specific feedback to correct answer.</p>',
+                    'format' => FORMAT_HTML],
+            ['text' => '<p>Specific feedback to correct answer.</p>',
+                    'format' => FORMAT_HTML],
+            ['text' => '<p>Specific feedback to wrong answer.</p>',
+                    'format' => FORMAT_HTML],
+            ['text' => '<p>Specific feedback to wrong answer.</p>',
+                    'format' => FORMAT_HTML],
+        ];
 
-        $expectedq->hint = array(
-                array('text' => 'Hint 1.', 'format' => FORMAT_HTML),
-                array('text' => 'Hint 2.', 'format' => FORMAT_HTML));
-        $expectedq->hintshownumcorrect = array(false, false);
-        $expectedq->hintclearwrong = array(false, false);
-        $expectedq->hintshowchoicefeedback = array(true, true);
+        $expectedq->hint = [
+                ['text' => 'Hint 1.', 'format' => FORMAT_HTML],
+                ['text' => 'Hint 2.', 'format' => FORMAT_HTML]];
+        $expectedq->hintshownumcorrect = [false, false];
+        $expectedq->hintclearwrong = [false, false];
+        $expectedq->hintshowchoicefeedback = [true, true];
 
         $this->assertEquals($expectedq->answer, $q->answer);
         $this->assert(new question_check_specified_fields_expectation($expectedq), $q);
     }
 
-    public function test_xml_export() {
-        $qdata = test_question_maker::get_question_data('answersselect', 'two_of_four');
+    public function test_xml_export(): void {
+        $qdata = test_question_maker::get_question_data('answersselect', 'mammals_two_of_four');
         $qdata->defaultmark = 6;
 
-        $exporter = new qformat_xml();
+        $exporter = new \qformat_xml();
         $xml = $exporter->writequestion($qdata);
 
         $expectedxml = '<!-- question: 0  -->
@@ -383,10 +382,10 @@ class qtype_answersselect_test extends question_testcase {
       <text>Random select answers question</text>
     </name>
     <questiontext format="html">
-      <text>Which are the odd numbers?</text>
+      <text>Which of these animals are mammals?</text>
     </questiontext>
     <generalfeedback format="html">
-      <text>The odd numbers are One and Three.</text>
+      <text>The cat and the whale are mammals.</text>
     </generalfeedback>
     <defaultgrade>6</defaultgrade>
     <penalty>0.3333333</penalty>
@@ -410,27 +409,27 @@ class qtype_answersselect_test extends question_testcase {
     </incorrectfeedback>
     <shownumcorrect/>
     <answer fraction="100" format="plain_text">
-      <text>One</text>
+      <text>the cat</text>
       <feedback format="html">
-        <text>One is odd.</text>
+        <text>Yes, the cat is a mammal.</text>
       </feedback>
     </answer>
     <answer fraction="0" format="plain_text">
-      <text>Two</text>
+      <text>the shark</text>
       <feedback format="html">
-        <text>Two is even.</text>
+        <text>No, the shark is a fish.</text>
       </feedback>
     </answer>
     <answer fraction="100" format="plain_text">
-      <text>Three</text>
+      <text>the whale</text>
       <feedback format="html">
-        <text>Three is odd.</text>
+        <text>Yes, the whale is a mammal.</text>
       </feedback>
     </answer>
     <answer fraction="0" format="plain_text">
-      <text>Four</text>
+      <text>the tortoise</text>
       <feedback format="html">
-        <text>Four is even.</text>
+        <text>No, the tortoise is a reptile.</text>
       </feedback>
     </answer>
     <hint format="html">

@@ -53,9 +53,9 @@ class mobile {
         return [
             'templates' => [[
                 'id' => 'main',
-                'html' => file_get_contents($CFG->dirroot . "/question/type/answersselect/mobile/answersselect_$versionname.html")
+                'html' => file_get_contents($CFG->dirroot . "/question/type/answersselect/mobile/answersselect_$versionname.html"),
             ]],
-            'javascript' => file_get_contents($CFG->dirroot . '/question/type/answersselect/mobile/answersselect.js')
+            'javascript' => file_get_contents($CFG->dirroot . '/question/type/answersselect/mobile/answersselect.js'),
         ];
     }
 }

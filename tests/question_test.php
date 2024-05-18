@@ -23,6 +23,14 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+namespace qtype_answersselect;
+
+use qtype_answersselect_question;
+use test_question_maker;
+use question_attempt_step;
+use question_state;
+use qtype_answersselect_test_helper as helper;
+
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -37,54 +45,75 @@ require_once($CFG->dirroot . '/question/type/answersselect/question.php');
  * @copyright 2021 Joseph Rézeau <joseph@rezeau.org>
  * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @covers ::everything
  */
-class qtype_answersselect_question_test extends basic_testcase {
+final class question_test extends \basic_testcase {
 
-    public function test_replace_char_at() {
+    /**
+     * @var int
+     */
+    private $tolerance = 0.000001;
+
+    /**
+     * @var int
+     */
+    public $qtype;
+
+    /**
+     * ok
+     */
+    public function test_replace_char_at(): void {
         $this->assertEquals(qtype_answersselect_question::replace_char_at('220', 0, '0'), '020');
     }
 
-    public function test_grade_responses_right_right() {
-        $mc = test_question_maker::make_question('answersselect', 'two_of_four');
+    /**
+     * ok
+     */
+    public function test_grade_responses_right_right(): void {
+        $mc = test_question_maker::make_question('answersselect', 'mammals_two_of_four');
         $mc->shuffleanswers = false;
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
-        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
-
-        list($fraction, $state) = $mc->grade_response(array('choice0' => '1', 'choice2' => '1'));
-        $this->assertEquals(1, $fraction, '', $tolerance);
+        list($fraction, $state) = $mc->grade_response(['choice0' => 'the cat', 'choice2' => 'the shark']);
+        $this->assertEquals(1, $fraction, '', $this->tolerance);
         $this->assertEquals($state, question_state::$gradedright);
     }
 
-    public function test_grade_responses_right() {
-        $mc = test_question_maker::make_question('answersselect', 'two_of_four');
+    /**
+     * ok
+     */
+    public function test_grade_responses_right(): void {
+        $mc = test_question_maker::make_question('answersselect', 'mammals_two_of_four');
         $mc->shuffleanswers = false;
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
-
-        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
-
-        list($fraction, $state) = $mc->grade_response(array('choice0' => '1'));
-        $this->assertEquals(0.5, $fraction, '', $tolerance);
+        list($fraction, $state) = $mc->grade_response(['choice0' => 'the shark']);
+        $this->assertEquals(0.5, $fraction, '', $this->tolerance);
         $this->assertEquals($state, question_state::$gradedpartial);
     }
 
-    public function test_grade_responses_wrong_wrong() {
-        $mc = test_question_maker::make_question('answersselect', 'two_of_four');
+    /**
+     * ok
+     */
+    public function test_grade_responses_wrong_wrong(): void {
+        $mc = test_question_maker::make_question('answersselect', 'mammals_two_of_four');
         $mc->shuffleanswers = false;
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
         $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
 
-        list($fraction, $state) = $mc->grade_response(array('choice1' => '1', 'choice3' => '1'));
+        list($fraction, $state) = $mc->grade_response(['choice1' => 'the shark', 'choice3' => 'the shark']);
         $this->assertEquals(0, $fraction, '', $tolerance);
         $this->assertEquals($state, question_state::$gradedwrong);
     }
-
-    public function test_grade_responses_right_wrong_wrong() {
-        $mc = test_question_maker::make_question('answersselect', 'two_of_four');
+    /**
+     * ok
+     *
+     */
+    public function test_grade_responses_right_wrong_wrong(): void {
+        $mc = test_question_maker::make_question('answersselect', 'mammals_two_of_four');
         $mc->shuffleanswers = false;
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
@@ -92,48 +121,60 @@ class qtype_answersselect_question_test extends basic_testcase {
         $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
 
         list($fraction, $state) = $mc->grade_response(
-                array('choice0' => '1', 'choice1' => '1', 'choice3' => '1'));
-        $this->assertEquals(0, $fraction, '', $tolerance);
+                ['choice0' => 'the shark', 'choice1' => 'the shark', 'choice3' => 'the shark']);
+        $this->assertEquals(0, $fraction, '', $this->tolerance);
         $this->assertEquals($state, question_state::$gradedpartial);
     }
 
-    public function test_grade_responses_right_wrong() {
-        $mc = test_question_maker::make_question('answersselect', 'two_of_four');
+    /**
+     * ok
+     *
+     */
+    public function test_grade_responses_right_wrong(): void {
+        $mc = test_question_maker::make_question('answersselect', 'mammals_two_of_four');
         $mc->shuffleanswers = false;
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
         $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
 
-        list($fraction, $state) = $mc->grade_response(array('choice0' => '1', 'choice1' => '1'));
+        list($fraction, $state) = $mc->grade_response(['choice0' => 'the shark', 'choice1' => 'the shark']);
+        $this->assertEquals(0.5, $fraction, '', $this->tolerance);
+        $this->assertEquals($state, question_state::$gradedpartial);
+    }
+
+    /**
+     * ok
+     *
+     */
+    public function test_grade_responses_right_right_wrong(): void {
+        $mc = test_question_maker::make_question('answersselect', 'mammals_two_of_four');
+        $mc->shuffleanswers = false;
+        $mc->answersselectmode = 0;
+        $mc->start_attempt(new question_attempt_step(), 1);
+
+        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
+
+        list($fraction, $state) = $mc->grade_response([
+                'choice0' => 'the shark', 'choice2' => 'the shark', 'choice3' => 'the shark']);
         $this->assertEquals(0.5, $fraction, '', $tolerance);
         $this->assertEquals($state, question_state::$gradedpartial);
     }
 
-    public function test_grade_responses_right_right_wrong() {
-        $mc = test_question_maker::make_question('answersselect', 'two_of_four');
+    /**
+     * ok
+     *
+     */
+    public function test_grade_responses_right_right_wrong_wrong(): void {
+        $mc = test_question_maker::make_question('answersselect', 'mammals_two_of_four');
         $mc->shuffleanswers = false;
         $mc->answersselectmode = 0;
         $mc->start_attempt(new question_attempt_step(), 1);
 
         $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
 
-        list($fraction, $state) = $mc->grade_response(array(
-                'choice0' => '1', 'choice2' => '1', 'choice3' => '1'));
-        $this->assertEquals(0.5, $fraction, '', $tolerance);
-        $this->assertEquals($state, question_state::$gradedpartial);
-    }
-
-    public function test_grade_responses_right_right_wrong_wrong() {
-        $mc = test_question_maker::make_question('answersselect', 'two_of_four');
-        $mc->shuffleanswers = false;
-        $mc->answersselectmode = 0;
-        $mc->start_attempt(new question_attempt_step(), 1);
-
-        $tolerance = !empty($this->tolerance) ? $this->tolerance : 0.0;
-
-        list($fraction, $state) = $mc->grade_response(array(
-                'choice0' => '1', 'choice1' => '1', 'choice2' => '1', 'choice3' => '1'));
+        list($fraction, $state) = $mc->grade_response([
+                'choice0' => 'the shark', 'choice1' => 'the shark', 'choice2' => 'the shark', 'choice3' => 'the shark']);
         $this->assertEquals(0, $fraction, '', $tolerance);
         $this->assertEquals($state, question_state::$gradedpartial);
     }
