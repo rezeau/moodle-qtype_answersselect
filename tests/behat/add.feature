@@ -46,7 +46,6 @@ Feature: Test creating a Random select answers question
       | Hint 2                    | Second hint                                  |
     Then I should see "answersselect-001"
 
-
   @javascript
   Scenario: Create a Random select answers question with optional selections of correct/incorrect answers
     When I am on the "Course 1" "core_question > course question bank" page logged in as teacher

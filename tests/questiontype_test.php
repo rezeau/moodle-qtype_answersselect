@@ -55,7 +55,8 @@ final class questiontype_test extends \question_testcase {
     }
 
     /**
-     * @param object $expectedxml 
+     * function assert_same_xml
+     * @param object $expectedxml
      * @param object $xml
      */
     public function assert_same_xml($expectedxml, $xml): void {

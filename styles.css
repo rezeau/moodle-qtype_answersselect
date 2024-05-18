@@ -40,7 +40,7 @@ body#page-question-type-answersselect div[id^=fitem_id_][id*=hint_] .fitemtitle 
 }
 /* Middle Modified JR nov. 2021. */
 body#page-question-type-answersselect .correctanswer {
-    margin-bottom: 0em;
+    margin-bottom: 0;
     background: #eee;
     border: 1px solid #bbb;
     border-top: 0;

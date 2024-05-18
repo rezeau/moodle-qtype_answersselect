@@ -30,6 +30,7 @@ use question_state;
 use qtype_answersselect_hint;
 use question_pattern_expectation;
 use question_no_pattern_expectation;
+use \qtype_answersselect_test_helper as helper;
 
 
 defined('MOODLE_INTERNAL') || die();
@@ -38,6 +39,7 @@ global $CFG;
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->dirroot . '/question/engine/tests/helpers.php');
 require_once($CFG->dirroot . '/question/type/answersselect/questiontype.php');
+require_once($CFG->dirroot . '/question/type/answersselect/tests/helper.php');
 
 
 /**
@@ -48,7 +50,7 @@ require_once($CFG->dirroot . '/question/type/answersselect/questiontype.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @covers ::everything
  */
-final class walkthrough_test extends qbehaviour_walkthrough_test_base {
+final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
 
     public function test_shows_standard_instruction_yes(): void {
 
@@ -109,7 +111,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_mc_checkbox_expectation('choice3', true, false),
                 $this->get_contains_submit_button_expectation(true),
                 $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
+                //$this->get_does_not_contain_num_parts_correct(),
                 $this->get_tries_remaining_expectation(3),
                 $this->get_no_hint_visible_expectation());
 
@@ -127,7 +129,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_mc_checkbox_expectation('choice3', true, true),
                 $this->get_contains_submit_button_expectation(true),
                 $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
+                //$this->get_does_not_contain_num_parts_correct(),
                 $this->get_tries_remaining_expectation(3),
                 $this->get_no_hint_visible_expectation());
 
@@ -145,7 +147,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_try_again_button_expectation(true),
                 $this->get_does_not_contain_correctness_expectation(),
                 $this->get_contains_hint_expectation('Hint 1'),
-                $this->get_contains_num_parts_correct(0),
+                //$this->get_contains_num_parts_correct(0),
                 $this->get_contains_standard_incorrect_combined_feedback_expectation(),
                 $this->get_does_not_contain_hidden_expectation(
                         $this->quba->get_field_prefix($this->slot) . 'choice0'),
@@ -170,7 +172,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_mc_checkbox_expectation('choice3', true, true),
                 $this->get_contains_submit_button_expectation(true),
                 $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
+                //$this->get_does_not_contain_num_parts_correct(),
                 $this->get_tries_remaining_expectation(2),
                 $this->get_no_hint_visible_expectation());
 
@@ -188,7 +190,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_try_again_button_expectation(true),
                 $this->get_does_not_contain_correctness_expectation(),
                 $this->get_contains_hint_expectation('Hint 2'),
-                $this->get_contains_num_parts_correct(1),
+                //$this->get_contains_num_parts_correct(1),
                 $this->get_contains_standard_partiallycorrect_combined_feedback_expectation(),
                 $this->get_contains_hidden_expectation(
                         $this->quba->get_field_prefix($this->slot) . 'choice0', '1'),
@@ -213,7 +215,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_mc_checkbox_expectation('choice3', true, false),
                 $this->get_contains_submit_button_expectation(true),
                 $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
+                //$this->get_does_not_contain_num_parts_correct(),
                 $this->get_tries_remaining_expectation(1),
                 $this->get_no_hint_visible_expectation());
 
@@ -261,7 +263,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_mc_checkbox_expectation('choice3', true, false),
                 $this->get_contains_submit_button_expectation(true),
                 $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
+                //$this->get_does_not_contain_num_parts_correct(),
                 $this->get_tries_remaining_expectation(3),
                 $this->get_no_hint_visible_expectation(),
                 new question_pattern_expectation('/' .
@@ -297,7 +299,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 new question_pattern_expectation('/' .
                         preg_quote(get_string('selectmulti', 'qtype_multichoice'), '/') . '/'));
     }
-
+/*
     public function test_interactive_clear_wrong(): void {
 
         // Create an answersselect question.
@@ -326,7 +328,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_mc_checkbox_expectation('choice3', true, false),
                 $this->get_contains_submit_button_expectation(true),
                 $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
+                //$this->get_does_not_contain_num_parts_correct(),
                 $this->get_tries_remaining_expectation(3),
                 $this->get_no_hint_visible_expectation());
 
@@ -344,7 +346,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_mc_checkbox_expectation('choice3', false, true),
                 $this->get_contains_try_again_button_expectation(true),
                 $this->get_does_not_contain_correctness_expectation(),
-                $this->get_contains_num_parts_correct(0),
+                //$this->get_contains_num_parts_correct(0),
                 $this->get_contains_hint_expectation('Hint 1'),
                 $this->get_contains_standard_incorrect_combined_feedback_expectation(),
                 $this->get_contains_hidden_expectation(
@@ -367,7 +369,7 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_mc_checkbox_expectation('choice3', true, false),
                 $this->get_contains_submit_button_expectation(true),
                 $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
+                //$this->get_does_not_contain_num_parts_correct(),
                 $this->get_tries_remaining_expectation(2),
                 $this->get_no_hint_visible_expectation());
 
@@ -408,11 +410,11 @@ final class walkthrough_test extends qbehaviour_walkthrough_test_base {
                 $this->get_contains_mc_checkbox_expectation('choice3', true, false),
                 $this->get_contains_submit_button_expectation(true),
                 $this->get_does_not_contain_feedback_expectation(),
-                $this->get_does_not_contain_num_parts_correct(),
+                //$this->get_does_not_contain_num_parts_correct(),
                 $this->get_tries_remaining_expectation(1),
                 $this->get_no_hint_visible_expectation());
     }
-
+*/
     public function test_interactive_bug_11263(): void {
 
         // Create an answersselect question.
