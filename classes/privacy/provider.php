@@ -13,6 +13,7 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * Privacy Subsystem implementation for qtype_answersselect.
  *
@@ -21,6 +22,7 @@
  * @copyright based on work by 2008 The Open University
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
 namespace qtype_answersselect\privacy;
 /**
  * Privacy Subsystem for qtype_answersselect implementing null_provider.

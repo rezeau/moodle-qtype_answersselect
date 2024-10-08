@@ -51,6 +51,7 @@ final class questiontype_test extends \question_testcase {
     private $qtype;
 
     public function setUp(): void {
+        parent::setUp();
         $this->qtype = new qtype_answersselect();
     }
 
