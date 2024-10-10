@@ -25,7 +25,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 
-$plugin->version   = 2024100800;
+$plugin->version   = 2024101000;
 $plugin->requires  = 2021051700;
 $plugin->component = 'qtype_answersselect';
 $plugin->maturity  = MATURITY_STABLE;
