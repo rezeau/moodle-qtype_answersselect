@@ -66,7 +66,6 @@ var result = {
             } else {
               iscorrect = undefined;
             }
-            
             options.push({text: label, name: name, checked: checked, disabled: disabled, feedback: feedback, qclass: qclass,
                 iscorrect: iscorrect});
         });
@@ -77,4 +76,5 @@ var result = {
 };
 
 // This next line is required as is (because of an eval step that puts this result object into the global scope).
+/* eslint-disable-next-line */
 result;
