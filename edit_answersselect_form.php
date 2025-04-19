@@ -140,7 +140,7 @@ class qtype_answersselect_edit_form extends question_edit_form {
         $repeated[] = $mform->createElement('editor', 'answer',
                 $label, ['rows' => 1], $this->editoroptions);
         $repeated[] = $mform->createElement('checkbox', 'correctanswer',
-                get_string('correctanswer', 'qtype_answersselect'), '', 'class = "correctanswer"');
+                get_string('correctanswer', 'qtype_answersselect'), '', '');
         $repeated[] = $mform->createElement('editor', 'feedback',
                 get_string('feedback', 'question'), ['rows' => 1], $this->editoroptions);
 
